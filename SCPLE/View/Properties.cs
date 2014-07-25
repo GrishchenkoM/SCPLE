@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SCPLE
+namespace SCPLE.View
 {
-    public partial class MainForm : Form
+    public partial class Properties : Form
     {
-        public MainForm()
+        public Properties()
         {
             InitializeComponent();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using SCPLE.Model;
 
 namespace SCPLE
 {
@@ -15,8 +16,10 @@ namespace SCPLE
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainForm mf = new MainForm();
-            Application.Run(mf);
+
+            MainFormView _mainFormView = new MainFormView();
+            Presenter.Presenter _presenter = new Presenter.Presenter(_mainFormView);
+            Application.Run(_mainFormView);
         }
     }
 }

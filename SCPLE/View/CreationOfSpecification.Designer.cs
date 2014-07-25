@@ -1,6 +1,6 @@
-﻿namespace SCPLE
+﻿namespace SCPLE.View
 {
-    partial class MainForm
+    partial class CreationOfSpecification
     {
         /// <summary>
         /// Required designer variable.
@@ -28,12 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // CreationOfSpecification
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(453, 332);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(461, 366);
+            this.MinimumSize = new System.Drawing.Size(461, 366);
+            this.Name = "CreationOfSpecification";
+            this.Opacity = 0.95D;
+            this.Text = "Creation of specification";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
     }
 }
-
