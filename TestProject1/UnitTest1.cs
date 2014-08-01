@@ -28,14 +28,6 @@ namespace SCPLETestProject
             _presenter.SetFilePath(_filePathView, EventArgs.Empty);
         }
         [Test]
-        public void SetSpecificationFileWrong()
-        {
-            _filePathView = new MainFormView();
-            _filePathView.SpecificationFileName_txbx = "D\\1.tx";
-            _presenter = new Presenter(_filePathView);
-            _presenter.SetFilePath(_filePathView, EventArgs.Empty);
-        }
-        [Test]
         public void SetListFileCorrect()
         {
             _filePathView = new MainFormView();
@@ -44,14 +36,12 @@ namespace SCPLETestProject
             _presenter.SetFilePath(_filePathView, EventArgs.Empty);
         }
         [Test]
-        public void SetListFileWrong()
+        public void CreateDocFile()
         {
-            _filePathView = new MainFormView();
-            _filePathView.SpecificationFileName_txbx = "D\\2.tx";
-            _presenter = new Presenter(_filePathView);
-            _presenter.SetFilePath(_filePathView, EventArgs.Empty);
+            _presenter = new Presenter(new MainFormView());
+            _presenter.OpenFile("D:\\Плата задатчика тока рекуперации ПЭ3 V21.doc",EventArgs.Empty);
+            //_presenter.OpenFile("D:\\ПЭ3 EX70-01правленный.doc", EventArgs.Empty);
+            //_presenter.OpenFile("D:\\ПЭ 122Х6.doc", EventArgs.Empty);
         }
-
-        
     }
 }

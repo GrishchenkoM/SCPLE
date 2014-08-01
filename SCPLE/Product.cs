@@ -10,6 +10,8 @@ namespace SCPLE
         public Product(string name)
         {
             _name = name;
+            elements_Name = new List<ElementNameObject>();
+            manufacturers = new List<string>();
         }
         
         public string Name
@@ -20,7 +22,8 @@ namespace SCPLE
         private string _name;
         private string _lettering;
         
-        public string manufacturers;
+        //public string manufacturers;
+        public List<string> manufacturers;
         public List<ElementNameObject> elements_Name;
     }
 }

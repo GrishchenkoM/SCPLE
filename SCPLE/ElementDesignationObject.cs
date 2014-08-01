@@ -13,7 +13,7 @@ namespace SCPLE
         /// <param name="designatorName">Name of designator without transformation</param>
         public ElementDesignationObject(string designatorName)
         {
-            //Name = Transformation(designatorName);
+            
         }
 
         /// <summary>

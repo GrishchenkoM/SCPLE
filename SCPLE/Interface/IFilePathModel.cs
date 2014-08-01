@@ -9,5 +9,7 @@ namespace SCPLE.Interface
     {
         bool IsCorrect(string path);
         string FilePath { get; set; }
+
+        void FileService(string path);
     }
 }
