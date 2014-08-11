@@ -8,5 +8,6 @@ namespace SCPLE.Interface
     public interface IPresenter
     {
         void Run();
+        void ChangeParameters(object newData, string name1, string name2);
     }
 }

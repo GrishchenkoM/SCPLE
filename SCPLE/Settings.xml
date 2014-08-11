@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Settings>
+  <marker type="Main">
+    <designationPcb>758716</designationPcb>
+    <marker type="FileCreation">
+      <doc>true</doc>
+      <xls>false</xls>
+    </marker>
+    <marker type="OtherDocuments">
+      <marker type="Pcb">
+        <is>true</is>
+        <format>A3</format>
+      </marker>
+      <marker type="AssemblyDrawing">
+        <is>true</is>
+        <format>A3</format>
+      </marker>
+      <marker type="ElectricalCircuit">
+        <is>true</is>
+        <format>A3</format>
+      </marker>
+      <marker type="CertifyingSheet">
+        <is>true</is>
+        <format>A4</format>
+      </marker>
+      <marker type="ListOfitems">
+        <is>true</is>
+        <format>A4</format>
+      </marker>
+    </marker>
+    <ElementsOfSMDMounting>true</ElementsOfSMDMounting>
+    <BorrowedItems>false</BorrowedItems>
+  </marker>
+  
+  <marker type="Template">
+    <path>
+      E:\\Мои документы\\Программирование\\C#\\My Projects\\Диплом\\SCPLE\\Modeling\\Template.dot
+    </path>
+  </marker>
+  
+  <marker type="Settings">
+    <path>
+      D:\\Settings.xml
+    </path>
+  </marker>
+    
+</Settings>

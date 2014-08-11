@@ -9,5 +9,6 @@ namespace SCPLE.Interface
     {
         void Show();
         void Close();
+        void ShowError(string errorMessage);
     }
 }

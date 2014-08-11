@@ -1,0 +1,1163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BorrowedItems_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BorrowedItems_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="BorrowedItems_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 183</value>
+  </data>
+  <data name="BorrowedItems_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 25</value>
+  </data>
+  <data name="BorrowedItems_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="BorrowedItems_chkBx.Text" xml:space="preserve">
+    <value>Заимствованные изделия</value>
+  </data>
+  <data name="&gt;&gt;BorrowedItems_chkBx.Name" xml:space="preserve">
+    <value>BorrowedItems_chkBx</value>
+  </data>
+  <data name="&gt;&gt;BorrowedItems_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BorrowedItems_chkBx.Parent" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;BorrowedItems_chkBx.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Items" xml:space="preserve">
+    <value>А3</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Items1" xml:space="preserve">
+    <value>А4</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Items2" xml:space="preserve">
+    <value>А5</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Items3" xml:space="preserve">
+    <value> -</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 142</value>
+  </data>
+  <data name="ListOfitems_cmbBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="ListOfitems_cmbBx.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_cmbBx.Name" xml:space="preserve">
+    <value>ListOfitems_cmbBx</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_cmbBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_cmbBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_cmbBx.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Items" xml:space="preserve">
+    <value>А3</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Items1" xml:space="preserve">
+    <value>А4</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Items2" xml:space="preserve">
+    <value>А5</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Items3" xml:space="preserve">
+    <value> -</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 114</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="ElectricalCircuit_cmbBx.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_cmbBx.Name" xml:space="preserve">
+    <value>ElectricalCircuit_cmbBx</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_cmbBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_cmbBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_cmbBx.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Items" xml:space="preserve">
+    <value>А3</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Items1" xml:space="preserve">
+    <value>А4</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Items2" xml:space="preserve">
+    <value>А5</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Items3" xml:space="preserve">
+    <value> -</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 87</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="AssemblyDrawing_cmbBx.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_cmbBx.Name" xml:space="preserve">
+    <value>AssemblyDrawing_cmbBx</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_cmbBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_cmbBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_cmbBx.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Items" xml:space="preserve">
+    <value>А3</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Items1" xml:space="preserve">
+    <value>А4</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Items2" xml:space="preserve">
+    <value>А5</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Items3" xml:space="preserve">
+    <value> -</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 61</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="CertifyingSheet_cmbBx.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_cmbBx.Name" xml:space="preserve">
+    <value>CertifyingSheet_cmbBx</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_cmbBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_cmbBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_cmbBx.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Pcb_cmbBx.Items" xml:space="preserve">
+    <value>А3</value>
+  </data>
+  <data name="Pcb_cmbBx.Items1" xml:space="preserve">
+    <value>А4</value>
+  </data>
+  <data name="Pcb_cmbBx.Items2" xml:space="preserve">
+    <value>А5</value>
+  </data>
+  <data name="Pcb_cmbBx.Items3" xml:space="preserve">
+    <value> -</value>
+  </data>
+  <data name="Pcb_cmbBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 34</value>
+  </data>
+  <data name="Pcb_cmbBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 21</value>
+  </data>
+  <data name="Pcb_cmbBx.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;Pcb_cmbBx.Name" xml:space="preserve">
+    <value>Pcb_cmbBx</value>
+  </data>
+  <data name="&gt;&gt;Pcb_cmbBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pcb_cmbBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;Pcb_cmbBx.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ListOfitems_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ListOfitems_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="ListOfitems_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 140</value>
+  </data>
+  <data name="ListOfitems_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 25</value>
+  </data>
+  <data name="ListOfitems_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ListOfitems_chkBx.Text" xml:space="preserve">
+    <value>ПЭЗ</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_chkBx.Name" xml:space="preserve">
+    <value>ListOfitems_chkBx</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_chkBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ListOfitems_chkBx.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Pcb_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Pcb_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="Pcb_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 32</value>
+  </data>
+  <data name="Pcb_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 25</value>
+  </data>
+  <data name="Pcb_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Pcb_chkBx.Text" xml:space="preserve">
+    <value>Плата</value>
+  </data>
+  <data name="&gt;&gt;Pcb_chkBx.Name" xml:space="preserve">
+    <value>Pcb_chkBx</value>
+  </data>
+  <data name="&gt;&gt;Pcb_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Pcb_chkBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;Pcb_chkBx.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 86</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 25</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="AssemblyDrawing_chkBx.Text" xml:space="preserve">
+    <value>СБ</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_chkBx.Name" xml:space="preserve">
+    <value>AssemblyDrawing_chkBx</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_chkBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;AssemblyDrawing_chkBx.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 113</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 25</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="ElectricalCircuit_chkBx.Text" xml:space="preserve">
+    <value>ЭЗ</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_chkBx.Name" xml:space="preserve">
+    <value>ElectricalCircuit_chkBx</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_chkBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;ElectricalCircuit_chkBx.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>18, 59</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 25</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CertifyingSheet_chkBx.Text" xml:space="preserve">
+    <value>УД</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_chkBx.Name" xml:space="preserve">
+    <value>CertifyingSheet_chkBx</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_chkBx.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;CertifyingSheet_chkBx.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>237, 16</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>154, 192</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Другие документы</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="FileDoc_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FileDoc_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="FileDoc_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 24</value>
+  </data>
+  <data name="FileDoc_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 25</value>
+  </data>
+  <data name="FileDoc_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="FileDoc_chkBx.Text" xml:space="preserve">
+    <value>.DOC</value>
+  </data>
+  <data name="&gt;&gt;FileDoc_chkBx.Name" xml:space="preserve">
+    <value>FileDoc_chkBx</value>
+  </data>
+  <data name="&gt;&gt;FileDoc_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FileDoc_chkBx.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;FileDoc_chkBx.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="FileXls_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="FileXls_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="FileXls_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>111, 24</value>
+  </data>
+  <data name="FileXls_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 25</value>
+  </data>
+  <data name="FileXls_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="FileXls_chkBx.Text" xml:space="preserve">
+    <value>.XLS</value>
+  </data>
+  <data name="&gt;&gt;FileXls_chkBx.Name" xml:space="preserve">
+    <value>FileXls_chkBx</value>
+  </data>
+  <data name="&gt;&gt;FileXls_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;FileXls_chkBx.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;FileXls_chkBx.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 85</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 64</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Создание файла</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 155</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 25</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="ElementsOfSMDMounting_chkBx.Text" xml:space="preserve">
+    <value>Элементы SMD монтажа</value>
+  </data>
+  <data name="&gt;&gt;ElementsOfSMDMounting_chkBx.Name" xml:space="preserve">
+    <value>ElementsOfSMDMounting_chkBx</value>
+  </data>
+  <data name="&gt;&gt;ElementsOfSMDMounting_chkBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ElementsOfSMDMounting_chkBx.Parent" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;ElementsOfSMDMounting_chkBx.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="DesignPcb_maskedTB.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 14.25pt</value>
+  </data>
+  <data name="DesignPcb_maskedTB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 19</value>
+  </data>
+  <data name="DesignPcb_maskedTB.Mask" xml:space="preserve">
+    <value>999999</value>
+  </data>
+  <data name="DesignPcb_maskedTB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 33</value>
+  </data>
+  <data name="DesignPcb_maskedTB.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="DesignPcb_maskedTB.Text" xml:space="preserve">
+    <value>999999</value>
+  </data>
+  <data name="&gt;&gt;DesignPcb_maskedTB.Name" xml:space="preserve">
+    <value>DesignPcb_maskedTB</value>
+  </data>
+  <data name="&gt;&gt;DesignPcb_maskedTB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.MaskedTextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DesignPcb_maskedTB.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;DesignPcb_maskedTB.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>161, 25</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 21</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>.</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12.75pt</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>37, 25</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 23</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>ААОТ.</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>23, 16</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 65</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Обозначение платы</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="Main_tabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Main_tabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="Main_tabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>415, 226</value>
+  </data>
+  <data name="Main_tabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="Main_tabPage.Text" xml:space="preserve">
+    <value>Основное</value>
+  </data>
+  <data name="&gt;&gt;Main_tabPage.Name" xml:space="preserve">
+    <value>Main_tabPage</value>
+  </data>
+  <data name="&gt;&gt;Main_tabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Main_tabPage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;Main_tabPage.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 49</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 26</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Для выбора необходимого файла 
+нажмите кнопку "Обзор..."</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>Template_tabPage</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 124</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>403, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Данный файл является файлом-шаблоном спецификации по умолчанию</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>Template_tabPage</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="SpecificationTemplate_txBx.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="SpecificationTemplate_txBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 86</value>
+  </data>
+  <data name="SpecificationTemplate_txBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 22</value>
+  </data>
+  <data name="SpecificationTemplate_txBx.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;SpecificationTemplate_txBx.Name" xml:space="preserve">
+    <value>SpecificationTemplate_txBx</value>
+  </data>
+  <data name="&gt;&gt;SpecificationTemplate_txBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SpecificationTemplate_txBx.Parent" xml:space="preserve">
+    <value>Template_tabPage</value>
+  </data>
+  <data name="&gt;&gt;SpecificationTemplate_txBx.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ListPath_btn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ListPath_btn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 52</value>
+  </data>
+  <data name="ListPath_btn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 23</value>
+  </data>
+  <data name="ListPath_btn.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="ListPath_btn.Text" xml:space="preserve">
+    <value>Обзор...</value>
+  </data>
+  <data name="&gt;&gt;ListPath_btn.Name" xml:space="preserve">
+    <value>ListPath_btn</value>
+  </data>
+  <data name="&gt;&gt;ListPath_btn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ListPath_btn.Parent" xml:space="preserve">
+    <value>Template_tabPage</value>
+  </data>
+  <data name="&gt;&gt;ListPath_btn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Template_tabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="Template_tabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="Template_tabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>415, 226</value>
+  </data>
+  <data name="Template_tabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Template_tabPage.Text" xml:space="preserve">
+    <value>Шаблон спецификации</value>
+  </data>
+  <data name="&gt;&gt;Template_tabPage.Name" xml:space="preserve">
+    <value>Template_tabPage</value>
+  </data>
+  <data name="&gt;&gt;Template_tabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Template_tabPage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;Template_tabPage.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 49</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>193, 26</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Для выбора необходимого файла 
+нажмите кнопку "Обзор..."</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>Settings_tabPage</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="SettingsPath_btn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="SettingsPath_btn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>25, 52</value>
+  </data>
+  <data name="SettingsPath_btn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 23</value>
+  </data>
+  <data name="SettingsPath_btn.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="SettingsPath_btn.Text" xml:space="preserve">
+    <value>Обзор...</value>
+  </data>
+  <data name="&gt;&gt;SettingsPath_btn.Name" xml:space="preserve">
+    <value>SettingsPath_btn</value>
+  </data>
+  <data name="&gt;&gt;SettingsPath_btn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;SettingsPath_btn.Parent" xml:space="preserve">
+    <value>Settings_tabPage</value>
+  </data>
+  <data name="&gt;&gt;SettingsPath_btn.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 124</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>367, 39</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Данный файл является файлом настройки программы.
+При отсутствии данного файла программа автоматически создаст 
+новый файл с установленными параметрами по умолчанию.</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>Settings_tabPage</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Settings_txBx.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Settings_txBx.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 86</value>
+  </data>
+  <data name="Settings_txBx.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 22</value>
+  </data>
+  <data name="Settings_txBx.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;Settings_txBx.Name" xml:space="preserve">
+    <value>Settings_txBx</value>
+  </data>
+  <data name="&gt;&gt;Settings_txBx.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Settings_txBx.Parent" xml:space="preserve">
+    <value>Settings_tabPage</value>
+  </data>
+  <data name="&gt;&gt;Settings_txBx.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Settings_tabPage.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="Settings_tabPage.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="Settings_tabPage.Size" type="System.Drawing.Size, System.Drawing">
+    <value>415, 226</value>
+  </data>
+  <data name="Settings_tabPage.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="Settings_tabPage.Text" xml:space="preserve">
+    <value>Файл настройки</value>
+  </data>
+  <data name="&gt;&gt;Settings_tabPage.Name" xml:space="preserve">
+    <value>Settings_tabPage</value>
+  </data>
+  <data name="&gt;&gt;Settings_tabPage.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Settings_tabPage.Parent" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;Settings_tabPage.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>423, 252</value>
+  </data>
+  <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
+    <value>tabControl1</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Save_btn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Save_btn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 292</value>
+  </data>
+  <data name="Save_btn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 23</value>
+  </data>
+  <data name="Save_btn.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Save_btn.Text" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="&gt;&gt;Save_btn.Name" xml:space="preserve">
+    <value>Save_btn</value>
+  </data>
+  <data name="&gt;&gt;Save_btn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Save_btn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Save_btn.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Exit_btn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Exit_btn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>352, 292</value>
+  </data>
+  <data name="Exit_btn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 23</value>
+  </data>
+  <data name="Exit_btn.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Exit_btn.Text" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="&gt;&gt;Exit_btn.Name" xml:space="preserve">
+    <value>Exit_btn</value>
+  </data>
+  <data name="&gt;&gt;Exit_btn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Exit_btn.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;Exit_btn.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 290</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 26</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Установите необходимые  параметры 
+и нажмите кнопку "Сохранить"</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>451, 334</value>
+  </data>
+  <data name="$this.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>461, 366</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>461, 366</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterParent</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Spec-Creator: Properties</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog1.Name" xml:space="preserve">
+    <value>openFileDialog1</value>
+  </data>
+  <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>PropertiesView</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

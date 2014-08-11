@@ -6,16 +6,19 @@ using System.Text;
 
 namespace SCPLE.Interface
 {
-    public interface IFilePathView : IView
+    public interface IFilePathMainFormView : IView
     {
-        string SpecificationFileName_txbx { get; set; }
+        string SpecificationTemplateFileName_txbx { get; set; }
         string ListFileName_txbx { get; set; }
         event Action IsCorrectSpecificationFilePath; // пользователь пытается добавить файл
         event Action IsCorrectListFilePath; // пользователь пытается добавить файл
         event EventHandler<EventArgs> SetDocument;
         event EventHandler<EventArgs> SetFilePath;
-        event EventHandler<EventArgs> OpenFile;
-        void ShowError(string errorMessage);
-        void IsOk(bool isOk, bool isListFile);
+        event EventHandler<EventArgs> CreateScView;
+
+        void IsOk(bool isOk, DocumentList documentList);
+        void IsEnabled(bool isEnabled);
+        void VisibleForm(bool value);
+        void SetPropertiesView(IPropertiesView propertiesView);
     }
 }
