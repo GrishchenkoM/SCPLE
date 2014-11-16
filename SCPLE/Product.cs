@@ -1,29 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
-namespace SCPLE
+namespace Scple
 {
+    /// <summary>
+    /// Раздел элементов
+    /// </summary>
     public class Product
     {
+        #region Constructor
+        /// <summary>
+        /// Конструтор
+        /// </summary>
+        /// <param name="name"></param>
         public Product(string name)
         {
             _name = name;
-            elements_Name = new List<ElementNameObject>();
-            manufacturers = new List<string>();
+            ElementsName = new List<ElementNameObject>();
+            Manufacturers = new List<string>();
         }
-        
+        #endregion
+
+        #region Auxiliary
+        /// <summary>
+        /// Инкапсуляция имени продукта
+        /// </summary>
         public string Name
         {
             get { return _name; }
         }
+        #endregion
 
-        private string _name;
-        private string _lettering;
+       #region Variables
+        /// <summary>
+        /// Контейнер производителей
+        /// </summary>
+        public List<string> Manufacturers;
+        /// <summary>
+        /// Контейнер наименований элементов
+        /// </summary>
+        public List<ElementNameObject> ElementsName;
+        /// <summary>
+        /// Контейнер позиций элементов
+        /// </summary>
+        private readonly string _name;
+        #endregion
         
-        //public string manufacturers;
-        public List<string> manufacturers;
-        public List<ElementNameObject> elements_Name;
     }
 }

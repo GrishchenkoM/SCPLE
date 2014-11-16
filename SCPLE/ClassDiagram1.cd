@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Scple.ElementNameObject">
+    <Position X="21" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAgAAAACAQAAAgAAgAAABABgAAAAEA=</HashCode>
+      <FileName>ElementNameObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.Parameters">
+    <Position X="18.75" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQQAAAIAAAgAQAASAgAAhAQAKAAiAAIAAACgEII=</HashCode>
+      <FileName>Parameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.Product">
+    <Position X="21" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIABAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Product.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.ProductRepository">
+    <Position X="21" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAgAAAAAAAACAAAAAQAAAQAAAAAAAAAw=</HashCode>
+      <FileName>ProductRepository.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.Program">
+    <Position X="23.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.AboutForm">
+    <Position X="21" Y="9" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAACAAABAAAASAAAACAAAgAEAAAAAAAQBAAAA=</HashCode>
+      <FileName>Views\AboutFormView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.MainFormView" BaseTypeListCollapsed="true">
+    <Position X="7" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AUSEEEABiGlAEBMEBATIwCIKgABkCEhAADAQAgGIwCE=</HashCode>
+      <FileName>Views\MainFormView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Scple.Helper">
+    <Position X="18.75" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\MainFormView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.Model.ModelCreationSpecification" BaseTypeListCollapsed="true">
+    <Position X="1" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ICgIhAEEgAIEYAAREEGCEZQAFBBAAGwEiIgEAACQXAI=</HashCode>
+      <FileName>Models\ModelCreationSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Scple.Model.ModelFilePath" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAJAAAAAAAA=</HashCode>
+      <FileName>Models\ModelFilePath.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Scple.Presenters.Presenter" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MEAAEABAgUAMIAAQEAAEEBAQCIAIAkAAEAIAACAADAI=</HashCode>
+      <FileName>Presenters\Presenter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SCPLE.Properties.Resources">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIEAAAAAAAAABEAAAAQAAAAAAwAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.Properties.Settings">
+    <Position X="23.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SCPLE.UnhandledException">
+    <Position X="18.75" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UnhandledException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scple.View.CreateSpecificationView" BaseTypeListCollapsed="true">
+    <Position X="9.75" Y="4.25" Width="2.25" />
+    <NestedTypes>
+      <Delegate Name="Scple.View.CreateSpecificationView.IsEnableDelegate" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Views\CreateSpecificationView.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>EAgIgQRBQWQEAJAAYEGAAQAKCQAAAhgQgCAKCDCBAAE=</HashCode>
+      <FileName>Views\CreateSpecificationView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Scple.View.ProcessingView" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABRgSAECBAQEACBERACAAMJEMAAALAAICAATAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Scple.View.PropertiesView" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="3.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>FIAAAK8BjWDMEpAGyGSWWIIugRABgMnWWCgbBFDZHAA=</HashCode>
+      <FileName>Views\PropertiesView.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Scple.Interface.IModelCreationSpecification">
+    <Position X="1" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAgAAAAAAQEAAAEBAAAAAAAAAAAAAAAAAADAI=</HashCode>
+      <FileName>Interfaces\IModelCreationSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IModelFilePath">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IModelFilePath.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IPresenter">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Interfaces\IPresenter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IView">
+    <Position X="9.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Interfaces\IView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IViewFileCreation">
+    <Position X="9.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAQAAAAAAAAEAAAAAAAAAAgAAAAAAAACAAAA=</HashCode>
+      <FileName>Interfaces\IViewFileCreation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IViewFilePathMainForm">
+    <Position X="7" Y="0.5" Width="2.5" />
+    <InheritanceLine Type="Scple.Interface.IView" FixedFromPoint="true">
+      <Path>
+        <Point X="9.75" Y="1.188" />
+        <Point X="9.5" Y="1.188" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAEAIAAAAAAAAIAABEAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IViewFilePathMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IViewProcessing">
+    <Position X="15.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAgQAAAAAQEAAAEBAAAAAAAEAAAIAAACAABAA=</HashCode>
+      <FileName>Interfaces\IViewProcessing.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Scple.Interface.IViewProperties">
+    <Position X="12.25" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgQAAEAAAAAAAAAAAAAAAgEAAACAAAEAAAAA=</HashCode>
+      <FileName>Interfaces\IViewProperties.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Scple.DocumentList">
+    <Position X="18.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAI=</HashCode>
+      <FileName>Views\MainFormView.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Scple.View.CloseFormDelegate" Collapsed="true">
+    <Position X="15.75" Y="15.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeProgressBarDelegate" Collapsed="true">
+    <Position X="15.75" Y="16.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeReadListStatusLabelDelegate" Collapsed="true">
+    <Position X="15.75" Y="17" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeCreateSpecStatusLabelDelegate">
+    <Position X="15.75" Y="12" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeStatusLabelDelegate" Collapsed="true">
+    <Position X="15.75" Y="14.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeStatusButtonDelegate" Collapsed="true">
+    <Position X="15.75" Y="14" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeLabelReadFileStatusDelegate" Collapsed="true">
+    <Position X="15.75" Y="13.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\ProcessingView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Scple.View.ChangeParameters" Collapsed="true">
+    <Position X="12.5" Y="23.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAABAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Views\PropertiesView.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

@@ -56,9 +56,9 @@
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SCPLE\SCPLE.csproj">
+    <ProjectReference Include="..\SCPLE\Scple.csproj">
       <Project>{75B7E467-3F53-4780-B336-7214E8D108F6}</Project>
-      <Name>SCPLE</Name>
+      <Name>Scple</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,13 @@
     <ElementsOfSMDMounting>true</ElementsOfSMDMounting>
     <BorrowedItems>false</BorrowedItems>
   </marker>
-  
+
+  <marker type="SMD">
+    <id>Chip</id>
+    <id>0805</id>
+    <id>1206</id>
+  </marker>
+
   <marker type="Template">
     <path>
       E:\\Мои документы\\Программирование\\C#\\My Projects\\Диплом\\SCPLE\\Modeling\\Template.dot
