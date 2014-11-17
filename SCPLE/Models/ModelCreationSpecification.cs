@@ -11,8 +11,8 @@ namespace Scple.Model
 {
     class ModelCreationSpecification : IModelCreationSpecification
     {
-        #region IModelCreationSpecification
-        #region Methods
+#region IModelCreationSpecification
+#region Methods
         public void FileService(string path)
         {
             try
@@ -55,14 +55,13 @@ namespace Scple.Model
             catch (Exception ex)
             {
                 CloseAll();
-                //if (!ex.Message.Contains("Cancel"))
-                ChangeProgressBar(-1, EventArgs.Empty);
+                if (!ex.Message.Contains("Cancel"))
+                    ChangeProgressBar(-1, EventArgs.Empty);
                 ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
                 ChangeStatusLabel("Ошибка!", EventArgs.Empty);
             }
         }
-
-
+        
         private void ReadFile(ProductRepository productRepository, string path)
         {
             Object templatePathObj = path;
@@ -302,19 +301,19 @@ namespace Scple.Model
             CloseDocument(ref _applicationWord, ref _documentWord);
             CloseDocument(ref _applicationExcel);
         }
-        #endregion
+#endregion
 
-        #region Events
+#region Events
         public event EventHandler<EventArgs> ChangeProgressBar;
         public event EventHandler<EventArgs> ChangeReadListStatusLabel;
         public event EventHandler<EventArgs> ChangeCreateSpecStatusLabel;
         public event EventHandler<EventArgs> ChangeStatusLabel;
         public event EventHandler<EventArgs> ChangeStatusButton;
         public event EventHandler<EventArgs> ChangeReadFileStatus;
-        #endregion
-        #endregion
+#endregion
+#endregion
 
-        #region Auxiliary
+#region Auxiliary
 
 #region Read File
         private void ReadListFile(ProductRepository productRepository, Word.Table _table)
@@ -340,19 +339,12 @@ namespace Scple.Model
 
                     if (_patternDetermination.IsList(_table, i)) continue;
 
-                    if (!(_table.Cell(i, j).Range.Text.Equals("\r\a")))
-                        if (!(_table.Cell(i, j + 1).Range.Text.Equals("\r\a")))
+                    if (!IsEmptyCell(_table, i, j))
+                        if (!IsEmptyCell(_table, i, j + 1))
                         {
-                            if (
-                                (_table.Cell(i, j + 1)
-                                    .Range.Text.ToLower(CultureInfo.CurrentCulture)
-                                    .Contains("не уст") ||
-                                 _table.Cell(i, j + 1)
-                                     .Range.Text.ToLower(CultureInfo.CurrentCulture)
-                                     .Contains("отсутс")))
+                            if (IsMissingDesignator(_table, i, j + 1))
                                 continue;
-
-                            while ((i + l <= _table.Rows.Count) && (_table.Cell(i + l, j + 2).Range.Text.Equals("\r\a")))
+                            while ((i + l <= _table.Rows.Count) && IsEmptyCell(_table, i + l, j + 2))
                                 ++l;
                             FillingProductElements(productRepository, _table, i, j, _isList);
                             if (l > 0)
@@ -367,7 +359,7 @@ namespace Scple.Model
                         else
                             AddToSameDesignation(productRepository, _table, i, j);
 
-                    else if (!(_table.Cell(i, j + 1).Range.Text.Equals("\r\a")))
+                    else if (!IsEmptyCell(_table, i, j + 1))
                         CreateProduct(productRepository, _table, ref i, j + 1);
 
                     ChangeProgressBar(i, EventArgs.Empty);
@@ -376,11 +368,52 @@ namespace Scple.Model
                 ChangeReadListStatusLabel("Готово!", EventArgs.Empty);
                 ChangeStatusLabel("Чтение файла перечня выполнено успешно!", EventArgs.Empty);
             }
+            catch (OutOfMemoryException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (StackOverflowException ex)
+            {
+                Handling(ex);
+            }
             catch (Exception e)
             {
                 Error(e, i);
                 throw;
             }
+        }
+
+        private bool IsEmptyCell(Word.Table _table, int row, int col)
+        {
+            if (_table.Cell(row, col).Range.Text.Equals("\r\a"))
+                return true;
+            return false;
+        }
+        private bool IsMissingDesignator(Word.Table _table, int row, int col)
+        {
+            if (_table.Cell(row, col).Range.Text.ToLower(CultureInfo.CurrentCulture)
+                .Contains("не уст") ||
+                _table.Cell(row, col)
+                .Range.Text.ToLower(CultureInfo.CurrentCulture)
+                .Contains("отсутс"))
+                return true;
+            return false;
         }
         private void ReadSpecFile(ProductRepository productRepository, Word.Table _table)
         {
@@ -401,14 +434,13 @@ namespace Scple.Model
                 {
                     int j = 2;
                     int k, l = 0;
-                    if (i == 450)
-                        i = 450;
+                    //if (i == 450)
+                    //    i = 450;
                     if (_table.Rows[i].Cells.Count < 7)
                         continue;
 
-                    if (!(_table.Cell(i, j + 3).Range.Text.Equals("\r\a")))
-                        if ((!_table.Cell(i, j).Range.Text.Equals("\r\a")) ||
-                            (!_table.Cell(i, j + 1).Range.Text.Equals("\r\a")))
+                    if (!IsEmptyCell(_table, i, j + 3))
+                        if ((!IsEmptyCell(_table, i, j)) || (!IsEmptyCell(_table, i, j + 1)))
                         {
                             FillingProductElements(productRepository, _table, i, j + 3, _isList);
                             AddCount(productRepository, _table, i, j + 4);
@@ -418,29 +450,27 @@ namespace Scple.Model
                                 ElementsName[
                                     productRepository.Products[productRepository.Products.Count - 1]
                                         .ElementsName.Count - 1].
-                                Format = _table.Cell(i, j).Range.Text.Replace("\r\a", null);
-
+                                Format = ReplaceText(_table, i, j, "\r\a", null); 
+                            
                             // read position
                             productRepository.Products[productRepository.Products.Count - 1].
                                 ElementsName[
                                     productRepository.Products[productRepository.Products.Count - 1]
                                         .ElementsName.Count - 1].
-                                Position = _table.Cell(i, j + 1).Range.Text.Replace("\r\a", null);
+                                Position = ReplaceText(_table, i, j + 1, "\r\a", null);
 
                             // read designation
                             productRepository.Products[productRepository.Products.Count - 1].
                                 ElementsName[
                                     productRepository.Products[productRepository.Products.Count - 1]
                                         .ElementsName.Count - 1].
-                                Designation = _table.Cell(i, j + 2).Range.Text.Replace("\r\a", null);
+                                Designation = ReplaceText(_table, i, j + 2, "\r\a", null);
 
-                            while ((i + l <= _table.Rows.Count) && (_table.Cell(i + l, j + 4).Range.Text.Equals("\r\a")))
+                            while ((i + l <= _table.Rows.Count) && (IsEmptyCell(_table, i + l, j + 4)))
                             {
-                                if ((_table.Cell(i + l, j).Range.Text.Equals("\r\a")) &&
-                                    (_table.Cell(i + l, j + 1).Range.Text.Equals("\r\a")) &&
-                                    (_table.Cell(i + l, j + 2).Range.Text.Equals("\r\a")) &&
-                                    (_table.Cell(i + l, j + 3).Range.Text.Equals("\r\a")) &&
-                                    (_table.Cell(i + l, j + 4).Range.Text.Equals("\r\a")))
+                                if (IsEmptyCell(_table, i + l, j) && (IsEmptyCell(_table, i + l, j + 1)) &&
+                                    (IsEmptyCell(_table, i + l, j + 2)) && (IsEmptyCell(_table, i + l, j + 3)) &&
+                                    (IsEmptyCell(_table, i + l, j + 4)))
                                 {
                                     l--;
                                     break;
@@ -463,27 +493,46 @@ namespace Scple.Model
                             if (_table.Rows[i + 1].Cells.Count < 7)
                                 continue;
 
-                            while ((i + l + 1 <= _table.Rows.Count) &&
-                                   (!(_table.Cell(i + l + 1, j + 5).Range.Text.Equals("\r\a")) &&
-                                    (_table.Cell(i + l + 1, j + 3).Range.Text.Equals("\r\a"))))
+                            while ((i + l + 1 <= _table.Rows.Count) && (!IsEmptyCell(_table, i + l + 1, j + 5)) &&
+                                    IsEmptyCell(_table, i + l + 1, j + 3))
                                 ++l;
 
                             if (l > 0)
                                 for (k = 1; k <= l; ++k)
-                                {
                                     AddToSameDesignation(productRepository, _table, i + k, j + 5);
-                                }
                         }
                         else
-                        {
                             CreateProduct(productRepository, _table, ref i, j + 3);
-                        }
 
                     ChangeProgressBar(i, EventArgs.Empty);
                 }
                 ChangeProgressBar(-1, EventArgs.Empty);
                 ChangeReadListStatusLabel("Готово!", EventArgs.Empty);
                 ChangeStatusLabel("Чтение файла спецификации выполнено успешно!", EventArgs.Empty);
+            }
+            catch (OutOfMemoryException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (StackOverflowException ex)
+            {
+                Handling(ex);
             }
             catch (Exception e)
             {
@@ -492,50 +541,48 @@ namespace Scple.Model
             }
         }
 
-        private static string DeleteSpaces(string str)
+        private string ReplaceText(Word.Table _table, int row, int col, string oldText, string newText)
+        {
+            return _table.Cell(row, col).Range.Text.Replace(oldText, newText);
+        }
+        private string DeleteSpacesFromElementsName(ProductRepository productRepository, int k)
+        {
+            return DeleteSpaces(productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name);
+        }
+        private string DeleteSpaces(string str)
         {
             return str.Replace(" ", "");
         }
-        private static void CreateProduct(ProductRepository productRepository, Word.Table _table, ref int i, int j)
+        private void CreateProduct(ProductRepository productRepository, Word.Table _table, ref int i, int j)
         {
-            productRepository.Products.Add(new Product(_table.Cell(i, j).Range.Text.Replace("\r\a", null)));
+            productRepository.Products.Add(new Product(ReplaceText(_table, i, j, "\r\a", null)));
             while
-                ((_table.Cell(i + 1, j - 1).Range.Text.Equals("\r\a"))
+                ((IsEmptyCell(_table, i + 1, j - 1))
                  &&
-                 (!_table.Cell(i + 1, j).Range.Text.Equals("\r\a")))
+                 (!IsEmptyCell(_table, i + 1, j)))
             {
                 productRepository.Products[productRepository.Products.Count - 1].
-                Manufacturers.Add(_table.Cell(++i, j).Range.Text.Replace("\r\a", null) + " ");
+                Manufacturers.Add(ReplaceText(_table, ++i, j, "\r\a", null) + " ");
             }
         }
         private void FillingProductElements(ProductRepository productRepository, Word.Table _table, int i, int j, bool isList)
         {
             if (isList)
             {
-                string partOfNewName = DeleteSpaces(_table.Cell(i, j + 1).Range.Text.Replace("\r\a", null));
+                string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j + 1, "\r\a", null));
 
                 for (int k = 0;
                     k < productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count;
                     ++k)
                 {
                     string partOfExistingName = "";
-                    string existingNameWithoutSpaces =
-                        DeleteSpaces(
-                            productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name);
-
+                    string existingNameWithoutSpaces = DeleteSpacesFromElementsName(productRepository, k);
+                        
                     if (existingNameWithoutSpaces.Length >= partOfNewName.Length)
-                    {
-                        partOfExistingName =
-                            DeleteSpaces(
-                                productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name)
+                        partOfExistingName = DeleteSpacesFromElementsName(productRepository, k)
                                 .Substring(0, partOfNewName.Length);
-                    }
                     else
-                    {
-                        partOfExistingName =
-                            DeleteSpaces(
-                                productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name);
-                    }
+                        partOfExistingName = DeleteSpacesFromElementsName(productRepository, k);
 
                     if (partOfNewName.Equals(partOfExistingName, StringComparison.Ordinal))
                     {
@@ -546,65 +593,61 @@ namespace Scple.Model
                 }
                 productRepository.Products[productRepository.Products.Count - 1].
                     ElementsName.
-                    Add(new ElementNameObject(_table.Cell(i, j + 1).Range.Text.Replace("\r\a", null)));
+                    Add(new ElementNameObject(ReplaceText(_table, i, j + 1, "\r\a", null)));
 
                 ++_totalAmountElementsNames; //общее количество ElementNameObject
 
                 productRepository.Products[productRepository.Products.Count - 1].
                     ElementsName[productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
                     ].
-                    ElementsDesignator.Add(_table.Cell(i, j).Range.Text.Replace("\r\a", null));
+                    ElementsDesignator.Add(ReplaceText(_table, i, j, "\r\a", null));
             }
             else
             {
                 productRepository.Products[productRepository.Products.Count - 1].
                     ElementsName.
-                    Add(new ElementNameObject(_table.Cell(i, j).Range.Text.Replace("\r\a", null)));
+                    Add(new ElementNameObject(ReplaceText(_table, i, j, "r\a", null)));
 
                 ++_totalAmountElementsNames; //общее количество ElementNameObject
 
                 productRepository.Products[productRepository.Products.Count - 1].
                     ElementsName[productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
                     ].
-                    ElementsDesignator.Add(_table.Cell(i, j + 2).Range.Text.Replace("\r\a", null));
+                    ElementsDesignator.Add(ReplaceText(_table, i, j + 2, "\r\a", null));
             }
             _sameNamePosition =
                     productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1;
         }
         private void AddToSameDesignation(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            if (_table.Cell(i, j).Range.Text.Equals("\r\a"))
-                return;
+            if (IsEmptyCell(_table, i, j)) return;
             productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName[_sameNamePosition].ElementsDesignator.Add(_table.Cell(i, j).Range.Text.Replace("\r\a", null).Replace(" ", null));
+                    ElementsName[_sameNamePosition].ElementsDesignator.Add(ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null));
         }
         private void AddToSameName(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            string partOfNewName = DeleteSpaces(_table.Cell(i, j).Range.Text.Replace("\r\a", null));
+            string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j, "\r\a", null));
             string existingNameWithoutSpaces =
                         DeleteSpaces(
                             productRepository.Products[productRepository.Products.Count - 1].ElementsName[_sameNamePosition].Name);
 
-            if (existingNameWithoutSpaces.Contains(partOfNewName))
-                return;
+            if (existingNameWithoutSpaces.Contains(partOfNewName)) return;
 
             productRepository.Products[productRepository.Products.Count - 1].
-                ElementsName[_sameNamePosition].Name += (" " + _table.Cell(i, j).Range.Text.Replace("\r\a", null));
+                ElementsName[_sameNamePosition].Name += (" " + ReplaceText(_table, i, j, "\r\a", null));
         }
         private void AddCount(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            if (_table.Cell(i, j).Range.Text.Replace("\r\a", null).Replace(" ", null) == "")
-                return;
-            else
+            if (ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null) != "")
                 productRepository.Products[productRepository.Products.Count - 1].
                     ElementsName[_sameNamePosition].DesignatorsCount +=
-                    Convert.ToInt32(_table.Cell(i, j).Range.Text.Replace("\r\a", null), CultureInfo.CurrentCulture);
+                    Convert.ToInt32(ReplaceText(_table, i, j, "\r\a", null), CultureInfo.CurrentCulture);
         }
 #endregion
 
-        #region Write File
+#region Write File
 
-        #region Write File to Doc
+#region Write File to Doc
 
         private void WriteFileToDoc(ProductRepository productRepository, Word.Table _table, int tabNumber)
         {
@@ -929,7 +972,6 @@ namespace Scple.Model
                         --m;
                     }
                 }
-                //lastLine--;
             }
         }
         private static void AddDesignatorsCount(ProductRepository productRepository, Word.Table _table, int k, int j, int lastLine)
@@ -989,9 +1031,9 @@ namespace Scple.Model
             ++i;
             ++i;
         }
-        #endregion
+#endregion
 
-        #region Write File to Xls
+#region Write File to Xls
         private void WriteFileToXls(ProductRepository productRepository, Excel.Workbook excelappworkbook)
         {
             int i = 1, k = 0; // i - rows
@@ -1035,9 +1077,7 @@ namespace Scple.Model
                 while ((productRepository.Products[x].Name != "Детали") &&
                        (productRepository.Products[x].Name != "Стандартные изделия") &&
                        productRepository.Products[x].Name != "Прочие изделия")
-                {
                     ++x;
-                }
                 k = x;
             }
 
@@ -1060,7 +1100,7 @@ namespace Scple.Model
                         AddPositionToXls(productRepository, i, k, j);
                     AddDesignation(productRepository, i, k, j);
                     if (_parameters.RatingPlusName)
-                        AddNameToElementsName(productRepository, i, k);
+                        AddProductToElementsName(productRepository, i, k);
                     AddElementsNameToXls(productRepository, i, k, j, duplication);
                     AddDesignatorsCountToXls(productRepository, i, k, j);
                     AddDesignatorsToXls(productRepository, ref i, k, j);
@@ -1070,9 +1110,7 @@ namespace Scple.Model
                  }
                 ++i;
                 duplication.Clear();
-                duplication = null;
             }
-            //ChangeProgressBar(_totalAmountElementsNames, EventArgs.Empty);
             ChangeCreateSpecStatusLabel("Готово!", EventArgs.Empty);
             ChangeStatusLabel("Создание файла спецификации '.xlsx' выполнено успешно!", EventArgs.Empty);
             ChangeProgressBar(-1, EventArgs.Empty);
@@ -1178,9 +1216,9 @@ namespace Scple.Model
                 ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 += (productRepository.Products[k].Manufacturers[x] + " ");
             }
         }
-        private void AddNameToElementsName(ProductRepository productRepository, int i, int k)
+        private void AddProductToElementsName(ProductRepository productRepository, int i, int k)
         {
-            ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 = (productRepository.Products[k].Name + " ");
+            ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 = (productRepository.Products[k].SingularName + " ");
         }
         private void AddElementsNameToXls(ProductRepository productRepository, int i, int k, int j, Dictionary<int, bool> duplication)
         {
@@ -1201,11 +1239,11 @@ namespace Scple.Model
                 ((Excel.Range)_excelWorkSheet.Cells[i, 6]).Value2 += (productRepository.Products[k].ElementsName[j].ElementsDesignator[m] + " ");
             }
         }
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Close
+#region Close
         private void CloseDocument(ref Word._Application application, ref Word._Document document)
         {
             if (application != null)
@@ -1256,11 +1294,11 @@ namespace Scple.Model
             }
 
         }
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Variables
+#region Variables
         private Word._Application _applicationWord;
         private Word._Document _documentWord;
         private Excel.Application _applicationExcel;
@@ -1275,6 +1313,6 @@ namespace Scple.Model
         private int _totalAmountElementsNames;
         private bool _isList;
         private bool _isSpecification;
-        #endregion
+#endregion
     }
 }
