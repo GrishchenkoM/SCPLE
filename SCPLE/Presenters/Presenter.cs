@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Scple.Interface;
 using Scple.Interfaces;
-using Scple.Model;
+using Scple.Models;
 using SCPLE.Properties;
 using Scple.View;
 using System.Xml;
@@ -503,7 +503,7 @@ namespace Scple.Presenters
 
             reader.ReadToFollowing("designationPcb");
             _parameters.DesignPcbFirstString = reader.ReadElementContentAsString();
-
+            
             while (true)
             {
                 reader.ReadToFollowing("marker");
@@ -522,8 +522,7 @@ namespace Scple.Presenters
                 if (reader.Value == "OtherDocuments")
                     ReadAttributeOtherDocuments(ref reader, out isEnd2);
                 
-                if (isEnd1 && isEnd2)
-                    break;
+                if (isEnd1 && isEnd2) break;
             }
 
             reader.ReadToFollowing("ElementsOfSMDMounting");

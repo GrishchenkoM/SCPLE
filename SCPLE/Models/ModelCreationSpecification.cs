@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 using Scple.Interfaces;
-using Scple.Models;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace Scple.Model
+namespace Scple.Models
 {
-    class ModelCreationSpecification : IModelCreationSpecification
+    public class ModelCreationSpecification : IModelCreationSpecification
     {
 #region IModelCreationSpecification
 #region Methods
@@ -58,7 +57,7 @@ namespace Scple.Model
                 if (!ex.Message.Contains("Cancel"))
                     ChangeProgressBar(-1, EventArgs.Empty);
                 ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
-                ChangeStatusLabel("Ошибка!", EventArgs.Empty);
+                ChangeStatusLabel(ex.Message, EventArgs.Empty);
             }
         }
         
@@ -105,6 +104,10 @@ namespace Scple.Model
                     _table = _documentWord.Tables[i];
                     ReadSpecFile(productRepository, _table);
                 }
+            }
+            else
+            {
+                throw new Exception("Unknown file!");
             }
         }
         private void WriteFile(ProductRepository productRepository, string path)
@@ -249,24 +252,33 @@ namespace Scple.Model
                     MessageBoxOptions.DefaultDesktopOnly);
             }
         }
-        
+
         private void ListOrSpecDocument(Word._Document _documentWord)
         {
-            Word.Table _table = _documentWord.Tables[1];
-            if ((_table.Cell(1, 1).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("№") &&
-                 _table.Cell(1, 3).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("поз")) &&
-                _table.Cell(1, 4).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("обозн"))
+            ModelPatternDetermination modelPatternDetermination = new ModelPatternDetermination();
+
+            try
+            {
+                Word.Table _table = _documentWord.Tables[1];
+
+                if (modelPatternDetermination.IsSpecification(_table, 1))
+                {
+                    _isList = false;
+                    _isSpecification = true;
+                }
+                else if (modelPatternDetermination.IsList(_table, 1))
+                {
+                    _isList = true;
+                    _isSpecification = false;
+                }
+            }
+            catch (Exception)
             {
                 _isList = false;
-                _isSpecification = true;
-            }
-            else if ((_table.Cell(1, 1).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("поз") &&
-                _table.Cell(1, 2).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("наименование")))
-            {
-                _isList = true;
                 _isSpecification = false;
             }
         }
+
         private void DesignationsSorting(ProductRepository productRepository)
         {
             productRepository.SortByDesignationName(); 

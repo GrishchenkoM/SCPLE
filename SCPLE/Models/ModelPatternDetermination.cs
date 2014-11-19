@@ -8,6 +8,8 @@ namespace Scple.Models
     {
         public bool IsList(Word.Table _table, int row)
         {
+            if (_table == null)
+                return false;
             if (_table.Cell(row, 1).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("поз") &&
                  _table.Cell(row, 2).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("наименование"))
                 return true;
@@ -16,6 +18,8 @@ namespace Scple.Models
 
         public bool IsSpecification(Word.Table _table, int row)
         {
+            if (_table == null)
+                return false;
             if ((_table.Cell(1, 1).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("№") &&
                   _table.Cell(1, 3).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("поз")) &&
                 _table.Cell(1, 4).Range.Text.ToLower(CultureInfo.CurrentCulture).Contains("обозн"))

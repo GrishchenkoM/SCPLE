@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Scple.Interface;
 
-namespace Scple.Model
+namespace Scple.Models
 {
     public class ModelFilePath : IModelFilePath
     {

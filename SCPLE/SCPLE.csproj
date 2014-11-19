@@ -89,6 +89,9 @@
     <Reference Include="Microsoft.Office.Interop.Word, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="Office, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -107,6 +110,7 @@
     <Compile Include="ElementNameObject.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Interfaces\IHandling.cs" />
+    <Compile Include="Interfaces\IReadFile.cs" />
     <Compile Include="Interfaces\IViewFileCreation.cs" />
     <Compile Include="Interfaces\IModelFilePath.cs" />
     <Compile Include="Interfaces\IViewFilePathMainForm.cs" />
@@ -186,6 +190,7 @@
       <DependentUpon>PropertiesView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -201,6 +206,7 @@
     <None Include="Resources\Template.doc" />
     <None Include="scple.snk" />
     <None Include="Scple_TemporaryKey.pfx" />
+    <None Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -229,6 +235,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\Settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-2.1.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\nugetexample.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
