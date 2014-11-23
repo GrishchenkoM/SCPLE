@@ -41,5 +41,7 @@ namespace Scple
                     sw.Close();
             }
         }
+
+        public UnhandledException(){}
     }
 }

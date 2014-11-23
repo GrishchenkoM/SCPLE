@@ -56,8 +56,7 @@ namespace Scple.Models
                 CloseAll();
                 if (!ex.Message.Contains("Cancel"))
                     ChangeProgressBar(-1, EventArgs.Empty);
-                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
-                ChangeStatusLabel(ex.Message, EventArgs.Empty);
+                ChangeStatusLabel("Отменено", EventArgs.Empty);
             }
         }
         
@@ -75,44 +74,54 @@ namespace Scple.Models
             }
             catch (Exception error)
             {
+                ChangeReadFileStatus("Ошибка", EventArgs.Empty);
                 CloseDocument(ref _applicationWord, ref _documentWord);
                 throw;
             }
 #endregion
 
-            if (_isList)
+            try
             {
-                ChangeReadFileStatus("- Чтение файла перечня элементов", EventArgs.Empty);
-                ChangeStatusLabel("Подготовка чтения файла перечня...", EventArgs.Empty);
-                
-                productRepository.Products.Add(new Product("Прочие изделия"));
-
-                for (int i = 1; i <= _documentWord.Tables.Count; ++i)
+                if (_isList)
                 {
-                    _table = _documentWord.Tables[i];
-                    ReadListFile(productRepository, _table);
+                    ChangeReadFileStatus("- Чтение файла перечня элементов", EventArgs.Empty);
+                    ChangeStatusLabel("Подготовка чтения файла перечня...", EventArgs.Empty);
+
+                    productRepository.Products.Add(new Product("Прочие изделия"));
+
+                    for (int i = 1; i <= _documentWord.Tables.Count; ++i)
+                    {
+                        _table = _documentWord.Tables[i];
+                        ReadListFile(productRepository, _table);
+                    }
+                }
+                else if (_isSpecification)
+                {
+                    string fullFileName;
+                    string FileName = CreateFullFileName(path, out fullFileName);
+                    ChangeReadFileStatus("- Чтение файла спецификации: " + FileName, EventArgs.Empty);
+
+                    for (int i = 1; i <= _documentWord.Tables.Count; ++i)
+                    {
+                        _table = _documentWord.Tables[i];
+                        ReadSpecFile(productRepository, _table);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Unknown file!");
                 }
             }
-            else if (_isSpecification)
+            catch (Exception ex)
             {
-                string fullFileName;
-                string FileName = CreateFullFileName(path, out fullFileName);
-                ChangeReadFileStatus("- Чтение файла спецификации: " + FileName, EventArgs.Empty);
-
-                for (int i = 1; i <= _documentWord.Tables.Count; ++i)
-                {
-                    _table = _documentWord.Tables[i];
-                    ReadSpecFile(productRepository, _table);
-                }
-            }
-            else
-            {
-                throw new Exception("Unknown file!");
+                return;
             }
         }
+
         private void WriteFile(ProductRepository productRepository, string path)
         {
             string fullFileName;
+
             CreateFullFileName(path, out fullFileName);
             DesignationsSorting(productRepository); // Сортировка Наименований
 
@@ -166,7 +175,7 @@ namespace Scple.Models
 
                 CloseDocument(ref applicationWord, ref _documentWord);
             }
-            else 
+            else
             {
                 #region Создание файла Excel
 
@@ -205,8 +214,6 @@ namespace Scple.Models
 
                 CloseDocument(ref _applicationExcel);
             }
-
-            ChangeStatusLabel("Готово!", EventArgs.Empty);
         }
 
         private void Handling(Exception ex)
@@ -229,27 +236,50 @@ namespace Scple.Models
             catch (Exception)
             {
                 CloseAll();
-                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
                 ChangeStatusLabel("Ошибка!", EventArgs.Empty);
             }
         }
-        private void Error(Exception ex, int row)
+        private bool Warning(Exception ex, int row)
         {
             if (!ex.Message.Contains("Cancel"))
             {
                 int tempPageNumber = row / 30 + 1;
                 int currentLine = row - (row / 30) * 30;
-                string message = "Чтение файла остановлено на " +
-                                 row + " строке (" + tempPageNumber + " лист, " + currentLine +
-                                 " строка). ";
-                ChangeProgressBar(-1, EventArgs.Empty);
-                ChangeReadListStatusLabel("Ошибка!", EventArgs.Empty);
-                ChangeStatusLabel("Чтение файла НЕ выполнено!", EventArgs.Empty);
-                MessageBox.Show(message, "Ошибка",
-                    MessageBoxButtons.OK,
+                string message = string.Format("Обнаружена ошибка на {0} строке ({1} лист, {2} строка).\n",
+                                                                    row, tempPageNumber, currentLine);
+                message += string.Format("Описание: {0}\n\n", ex.Message);
+                message += "ПОПЫТАТЬСЯ ПРОДОЛЖИТЬ РАБОТУ ПРОГРАММЫ?\n\n";
+                message += "Нажмите ДА, если хотите продолжить.";
+                var result = MessageBox.Show(message, "Ошибка",
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Error,
                     MessageBoxDefaultButton.Button1,
                     MessageBoxOptions.DefaultDesktopOnly);
+                if (result == DialogResult.No)
+                {
+                    CloseAll();
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    ChangeStatusLabel("Ошибка!", EventArgs.Empty);
+                    return false;
+                }
+            }
+            return true;
+        }
+        private void DoWarning(Exception ex, int row, EventHandler<EventArgs> eventHandler)
+        {
+            if (!Warning(ex, row))
+            {
+                eventHandler("Ошибка!", EventArgs.Empty);
+                throw new UnhandledException();
+            }
+        }
+        private void Error(Exception ex, EventHandler<EventArgs> eventHandler)
+        {
+            if (!ex.Message.Contains("Cancel"))
+            {
+                ChangeProgressBar(-1, EventArgs.Empty);
+                eventHandler("Ошибка!", EventArgs.Empty);
+                ChangeStatusLabel("НЕ выполнено!", EventArgs.Empty);
             }
         }
 
@@ -383,6 +413,8 @@ namespace Scple.Models
             catch (OutOfMemoryException ex)
             {
                 Handling(ex);
+                ChangeReadListStatusLabel("Ошибка!", EventArgs.Empty);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
             }
             catch (NullReferenceException ex)
             {
@@ -392,40 +424,88 @@ namespace Scple.Models
             {
                 Handling(ex);
             }
-            catch (IndexOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
             catch (StackOverflowException ex)
             {
                 Handling(ex);
             }
-            catch (Exception e)
+            catch (ArgumentNullException ex)
             {
-                Error(e, i);
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
+            catch (UnhandledException ex)
+            {
+                Error(ex, ChangeReadListStatusLabel);
+            }
+            catch (Exception ex)
+            {
+                Error(ex, ChangeReadListStatusLabel);
                 throw;
             }
         }
 
         private bool IsEmptyCell(Word.Table _table, int row, int col)
         {
-            if (_table.Cell(row, col).Range.Text.Equals("\r\a"))
-                return true;
-            return false;
+            try
+            {
+                if (_table.Cell(row, col).Range.Text.Equals("\r\a"))
+                    return true;
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+                return false;
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, row, ChangeReadListStatusLabel);
+                return false;
+            }
         }
         private bool IsMissingDesignator(Word.Table _table, int row, int col)
         {
-            if (_table.Cell(row, col).Range.Text.ToLower(CultureInfo.CurrentCulture)
-                .Contains("не уст") ||
-                _table.Cell(row, col)
-                .Range.Text.ToLower(CultureInfo.CurrentCulture)
-                .Contains("отсутс"))
-                return true;
-            return false;
+            try
+            {
+                if (_table.Cell(row, col).Range.Text.ToLower(CultureInfo.CurrentCulture)
+                    .Contains("не уст") ||
+                    _table.Cell(row, col)
+                        .Range.Text.ToLower(CultureInfo.CurrentCulture)
+                        .Contains("отсутс"))
+                    return true;
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+                return false;
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+                return false;
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, row, ChangeReadListStatusLabel);
+                return false;
+            }
         }
         private void ReadSpecFile(ProductRepository productRepository, Word.Table _table)
         {
@@ -444,10 +524,8 @@ namespace Scple.Models
 
                 for (i = 2; i <= _table.Rows.Count; ++i)
                 {
-                    int j = 2;
-                    int k, l = 0;
-                    //if (i == 450)
-                    //    i = 450;
+                    int j = 2, k, l = 0;
+
                     if (_table.Rows[i].Cells.Count < 7)
                         continue;
 
@@ -517,6 +595,8 @@ namespace Scple.Models
                             CreateProduct(productRepository, _table, ref i, j + 3);
 
                     ChangeProgressBar(i, EventArgs.Empty);
+
+
                 }
                 ChangeProgressBar(-1, EventArgs.Empty);
                 ChangeReadListStatusLabel("Готово!", EventArgs.Empty);
@@ -525,6 +605,8 @@ namespace Scple.Models
             catch (OutOfMemoryException ex)
             {
                 Handling(ex);
+                ChangeReadListStatusLabel("Ошибка!", EventArgs.Empty);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
             }
             catch (NullReferenceException ex)
             {
@@ -534,32 +616,58 @@ namespace Scple.Models
             {
                 Handling(ex);
             }
-            catch (IndexOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
             catch (StackOverflowException ex)
             {
                 Handling(ex);
             }
-            catch (Exception e)
+            catch (ArgumentNullException ex)
             {
-                Error(e, i);
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
+            catch (UnhandledException ex)
+            {
+                Error(ex, ChangeReadListStatusLabel);
+            }
+            catch (Exception ex)
+            {
+                Error(ex, ChangeReadListStatusLabel);
                 throw;
             }
         }
 
         private string ReplaceText(Word.Table _table, int row, int col, string oldText, string newText)
         {
-            return _table.Cell(row, col).Range.Text.Replace(oldText, newText);
+            try
+            {
+                return _table.Cell(row, col).Range.Text.Replace(oldText, newText);
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, row, ChangeReadListStatusLabel);
+                return "";
+            }
         }
+
         private string DeleteSpacesFromElementsName(ProductRepository productRepository, int k)
         {
-            return DeleteSpaces(productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name);
+            try
+            {
+                return
+                    DeleteSpaces(productRepository.Products[productRepository.Products.Count - 1].ElementsName[k].Name);
+            }
+            catch (Exception ex)
+            {
+                Handling(ex);
+                throw new UnhandledException(ex);
+            }
         }
         private string DeleteSpaces(string str)
         {
@@ -567,93 +675,182 @@ namespace Scple.Models
         }
         private void CreateProduct(ProductRepository productRepository, Word.Table _table, ref int i, int j)
         {
-            productRepository.Products.Add(new Product(ReplaceText(_table, i, j, "\r\a", null)));
-            while
-                ((IsEmptyCell(_table, i + 1, j - 1))
-                 &&
-                 (!IsEmptyCell(_table, i + 1, j)))
+            try
             {
-                productRepository.Products[productRepository.Products.Count - 1].
-                Manufacturers.Add(ReplaceText(_table, ++i, j, "\r\a", null) + " ");
+                productRepository.Products.Add(new Product(ReplaceText(_table, i, j, "\r\a", null)));
+                while
+                    ((IsEmptyCell(_table, i + 1, j - 1))
+                     &&
+                     (!IsEmptyCell(_table, i + 1, j)))
+                {
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        Manufacturers.Add(ReplaceText(_table, ++i, j, "\r\a", null) + " ");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
             }
         }
         private void FillingProductElements(ProductRepository productRepository, Word.Table _table, int i, int j, bool isList)
         {
-            if (isList)
+            try
             {
-                string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j + 1, "\r\a", null));
-
-                for (int k = 0;
-                    k < productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count;
-                    ++k)
+                if (isList)
                 {
-                    string partOfExistingName = "";
-                    string existingNameWithoutSpaces = DeleteSpacesFromElementsName(productRepository, k);
-                        
-                    if (existingNameWithoutSpaces.Length >= partOfNewName.Length)
-                        partOfExistingName = DeleteSpacesFromElementsName(productRepository, k)
-                                .Substring(0, partOfNewName.Length);
-                    else
-                        partOfExistingName = DeleteSpacesFromElementsName(productRepository, k);
+                    string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j + 1, "\r\a", null));
 
-                    if (partOfNewName.Equals(partOfExistingName, StringComparison.Ordinal))
+                    for (int k = 0;
+                        k < productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count;
+                        ++k)
                     {
-                        _sameNamePosition = k;
-                        AddToSameDesignation(productRepository, _table, i, j);
-                        return;
+                        string partOfExistingName = "";
+                        string existingNameWithoutSpaces = DeleteSpacesFromElementsName(productRepository, k);
+
+                        if (existingNameWithoutSpaces.Length >= partOfNewName.Length)
+                            partOfExistingName = DeleteSpacesFromElementsName(productRepository, k)
+                                .Substring(0, partOfNewName.Length);
+                        else
+                            partOfExistingName = DeleteSpacesFromElementsName(productRepository, k);
+
+                        if (partOfNewName.Equals(partOfExistingName, StringComparison.Ordinal))
+                        {
+                            _sameNamePosition = k;
+                            AddToSameDesignation(productRepository, _table, i, j);
+                            return;
+                        }
                     }
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        ElementsName.
+                        Add(new ElementNameObject(ReplaceText(_table, i, j + 1, "\r\a", null)));
+
+                    ++_totalAmountElementsNames; //общее количество ElementNameObject
+
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        ElementsName[
+                            productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
+                        ].
+                        ElementsDesignator.Add(ReplaceText(_table, i, j, "\r\a", null));
                 }
-                productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName.
-                    Add(new ElementNameObject(ReplaceText(_table, i, j + 1, "\r\a", null)));
+                else
+                {
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        ElementsName.
+                        Add(new ElementNameObject(ReplaceText(_table, i, j, "r\a", null)));
 
-                ++_totalAmountElementsNames; //общее количество ElementNameObject
+                    ++_totalAmountElementsNames; //общее количество ElementNameObject
 
-                productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName[productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
-                    ].
-                    ElementsDesignator.Add(ReplaceText(_table, i, j, "\r\a", null));
-            }
-            else
-            {
-                productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName.
-                    Add(new ElementNameObject(ReplaceText(_table, i, j, "r\a", null)));
-
-                ++_totalAmountElementsNames; //общее количество ElementNameObject
-
-                productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName[productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
-                    ].
-                    ElementsDesignator.Add(ReplaceText(_table, i, j + 2, "\r\a", null));
-            }
-            _sameNamePosition =
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        ElementsName[
+                            productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1
+                        ].
+                        ElementsDesignator.Add(ReplaceText(_table, i, j + 2, "\r\a", null));
+                }
+                _sameNamePosition =
                     productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1;
+            }
+            catch (UnhandledException ex){}
+            catch (Exception ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
         }
         private void AddToSameDesignation(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            if (IsEmptyCell(_table, i, j)) return;
-            productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName[_sameNamePosition].ElementsDesignator.Add(ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null));
+            try
+            {
+                if (IsEmptyCell(_table, i, j)) return;
+                productRepository.Products[productRepository.Products.Count - 1].
+                    ElementsName[_sameNamePosition].ElementsDesignator.Add(
+                        ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null));
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
         }
         private void AddToSameName(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j, "\r\a", null));
-            string existingNameWithoutSpaces =
-                        DeleteSpaces(
-                            productRepository.Products[productRepository.Products.Count - 1].ElementsName[_sameNamePosition].Name);
+            try
+            {
+                string partOfNewName = DeleteSpaces(ReplaceText(_table, i, j, "\r\a", null));
+                string existingNameWithoutSpaces =
+                    DeleteSpaces(
+                        productRepository.Products[productRepository.Products.Count - 1].ElementsName[_sameNamePosition]
+                            .Name);
 
-            if (existingNameWithoutSpaces.Contains(partOfNewName)) return;
+                if (existingNameWithoutSpaces.Contains(partOfNewName)) return;
 
-            productRepository.Products[productRepository.Products.Count - 1].
-                ElementsName[_sameNamePosition].Name += (" " + ReplaceText(_table, i, j, "\r\a", null));
+                productRepository.Products[productRepository.Products.Count - 1].
+                    ElementsName[_sameNamePosition].Name += (" " + ReplaceText(_table, i, j, "\r\a", null));
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
         }
         private void AddCount(ProductRepository productRepository, Word.Table _table, int i, int j)
         {
-            if (ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null) != "")
-                productRepository.Products[productRepository.Products.Count - 1].
-                    ElementsName[_sameNamePosition].DesignatorsCount +=
-                    Convert.ToInt32(ReplaceText(_table, i, j, "\r\a", null), CultureInfo.CurrentCulture);
+            try
+            {
+                if (ReplaceText(_table, i, j, "\r\a", null).Replace(" ", null) != "")
+                    productRepository.Products[productRepository.Products.Count - 1].
+                        ElementsName[_sameNamePosition].DesignatorsCount +=
+                        Convert.ToInt32(ReplaceText(_table, i, j, "\r\a", null), CultureInfo.CurrentCulture);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Handling(ex);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (Exception ex)
+            {
+                DoWarning(ex, i, ChangeReadListStatusLabel);
+            }
+
         }
 #endregion
 
@@ -667,6 +864,7 @@ namespace Scple.Models
             ChangeCreateSpecStatusLabel("В процессе...", EventArgs.Empty);
             ChangeStatusLabel("Создание файла 'docx'. Пожалуйста, подождите", EventArgs.Empty);
 
+            int lastLine, i = 4;
             try
             {
                 if (tabNumber == 1)
@@ -674,8 +872,7 @@ namespace Scple.Models
                 else
                 {
                     int positionNumber = Convert.ToInt32(_parameters.SourcePosition, CultureInfo.CurrentCulture);
-                    int lastLine, i = 4;
-
+                    
                     _table.Rows.Add();
                     for (int k = 0; k < productRepository.Products.Count; ++k)
                     {
@@ -726,25 +923,54 @@ namespace Scple.Models
                     ChangeProgressBar(-1, EventArgs.Empty);
                 }
             }
-            catch (IndexOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                Handling(ex);
-            }
             catch (OutOfMemoryException ex)
             {
                 Handling(ex);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
             }
             catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
             {
                 Handling(ex);
             }
             catch (StackOverflowException ex)
             {
                 Handling(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
             }
         }
 
@@ -755,199 +981,231 @@ namespace Scple.Models
             string nameOfDoc = "AAOT." + _parameters.DesignDocFirstString + "." + _parameters.DesignDocSecondString;
             string nameOfPcb = "AAOT." + _parameters.DesignPcbFirstString + "." + _parameters.DesignPcbSecondString;
 
-            _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
-            _table.Cell(i, 5).Range.Text = "Документация";
-            i += 2;
-
-            if (_parameters.AssemblyDrawing)
+            try
             {
-                _table.Cell(i, 2).Range.Text = _parameters.AssemblyDrawingFormat;
-                _table.Cell(i, 4).Range.Text = nameOfDoc + " СБ";
-                _table.Cell(i, 5).Range.Text = "Сборочный чертеж";
+                _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                    Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
+                _table.Cell(i, 5).Range.Text = "Документация";
                 i += 2;
-            }
-            
-            if (_parameters.ElectricalCircuit)
-            {
-                _table.Cell(i, 2).Range.Text = _parameters.ElectricalCircuitFormat;
-                _table.Cell(i, 4).Range.Text = nameOfDoc + " ЭЗ";
-                _table.Cell(i, 5).Range.Text = "Схема электрическая";
-                _table.Cell(++i, 5).Range.Text = "принципиальная";
+
+                if (_parameters.AssemblyDrawing)
+                {
+                    _table.Cell(i, 2).Range.Text = _parameters.AssemblyDrawingFormat;
+                    _table.Cell(i, 4).Range.Text = nameOfDoc + " СБ";
+                    _table.Cell(i, 5).Range.Text = "Сборочный чертеж";
+                    i += 2;
+                }
+
+                if (_parameters.ElectricalCircuit)
+                {
+                    _table.Cell(i, 2).Range.Text = _parameters.ElectricalCircuitFormat;
+                    _table.Cell(i, 4).Range.Text = nameOfDoc + " ЭЗ";
+                    _table.Cell(i, 5).Range.Text = "Схема электрическая";
+                    _table.Cell(++i, 5).Range.Text = "принципиальная";
+                    i += 2;
+                }
+
+                if (_parameters.ListOfitems)
+                {
+                    _table.Cell(i, 2).Range.Text = _parameters.ListOfitemsFormat;
+                    _table.Cell(i, 4).Range.Text = nameOfDoc + " ПЭЗ";
+                    _table.Cell(i, 5).Range.Text = "Перечень элементов";
+                    i += 2;
+                }
+
+                if (_parameters.Pcb)
+                {
+                    _table.Cell(i, 2).Range.Text = "-";
+                    _table.Cell(i, 4).Range.Text = nameOfPcb + " М";
+                    _table.Cell(i, 5).Range.Text = "Плата. Данные конструкции";
+                    _table.Cell(i, 7).Range.Text = "CD";
+                    i += 2;
+                }
+
+                if (_parameters.CertifyingSheet)
+                {
+                    _table.Cell(i, 2).Range.Text = _parameters.CertifyingSheetFormat;
+                    _table.Cell(i, 4).Range.Text = nameOfPcb + " М-УД";
+                    _table.Cell(i, 5).Range.Text = "Плата. Данные конструкции";
+                    _table.Cell(++i, 5).Range.Text = "Удостоверяющий лист";
+                    i += 2;
+                }
+
                 i += 2;
-            }
-            
-            if (_parameters.ListOfitems)
-            {
-                _table.Cell(i, 2).Range.Text = _parameters.ListOfitemsFormat;
-                _table.Cell(i, 4).Range.Text = nameOfDoc + " ПЭЗ";
-                _table.Cell(i, 5).Range.Text = "Перечень элементов";
+                _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                    Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
+                _table.Cell(i, 5).Range.Text = "Детали";
                 i += 2;
+
+                _table.Cell(i, 2).Range.Text = _parameters.PcbFormat;
+                _table.Cell(i, 4).Range.Text = nameOfPcb;
+                _table.Cell(i, 5).Range.Text = "Плата";
+                _table.Cell(i, 6).Range.Text = "1";
+
+                if (_parameters.ElementsOfSmdMounting && !_parameters.BorrowedItems)
+                {
+                    _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
+                    _table.Cell(_table.Rows.Count, 4).Range.Text = "* Элементы SMD монтажа";
+                }
+                else if (!_parameters.ElementsOfSmdMounting && _parameters.BorrowedItems)
+                {
+                    _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
+                    _table.Cell(_table.Rows.Count, 4).Range.Text = "* Заимствованные изделия";
+                }
+                else if (_parameters.ElementsOfSmdMounting && _parameters.BorrowedItems)
+                {
+                    _table.Rows[_table.Rows.Count - 1].Cells[4].Merge(_table.Rows[_table.Rows.Count - 1].Cells[5]);
+                    _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
+
+                    _table.Cell(_table.Rows.Count - 1, 4).Range.Text = "* Элементы SMD монтажа";
+                    _table.Cell(_table.Rows.Count, 4).Range.Text = "** Заимствованные изделия";
+                }
             }
-
-            if (_parameters.Pcb)
+            catch (NullReferenceException ex)
             {
-                _table.Cell(i, 2).Range.Text = "-";
-                _table.Cell(i, 4).Range.Text = nameOfPcb + " М";
-                _table.Cell(i, 5).Range.Text = "Плата. Данные конструкции";
-                _table.Cell(i, 7).Range.Text = "CD";
-                i += 2;
+                Handling(ex);
             }
-
-            if (_parameters.CertifyingSheet)
+            catch (OverflowException ex)
             {
-                _table.Cell(i, 2).Range.Text = _parameters.CertifyingSheetFormat;
-                _table.Cell(i, 4).Range.Text = nameOfPcb + " М-УД";
-                _table.Cell(i, 5).Range.Text = "Плата. Данные конструкции";
-                _table.Cell(++i, 5).Range.Text = "Удостоверяющий лист";
-                i += 2;
+                Handling(ex);
             }
-
-            i += 2;
-            _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
-            _table.Cell(i, 5).Range.Text = "Детали";
-            i += 2;
-
-            _table.Cell(i, 2).Range.Text = _parameters.PcbFormat;
-            _table.Cell(i, 4).Range.Text = nameOfPcb;
-            _table.Cell(i, 5).Range.Text = "Плата";
-            _table.Cell(i, 6).Range.Text = "1";
-
-            if (_parameters.ElementsOfSmdMounting && !_parameters.BorrowedItems)
+            catch (StackOverflowException ex)
             {
-                _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
-                _table.Cell(_table.Rows.Count, 4).Range.Text = "* Элементы SMD монтажа";
+                Handling(ex);
             }
-            else if (!_parameters.ElementsOfSmdMounting && _parameters.BorrowedItems)
+            catch (ArgumentNullException ex)
             {
-                _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
-                _table.Cell(_table.Rows.Count, 4).Range.Text = "* Заимствованные изделия";
+                Handling(ex);
             }
-            else if (_parameters.ElementsOfSmdMounting && _parameters.BorrowedItems)
+            catch (IndexOutOfRangeException ex)
             {
-                _table.Rows[_table.Rows.Count - 1].Cells[4].Merge(_table.Rows[_table.Rows.Count - 1].Cells[5]);
-                _table.Rows[_table.Rows.Count].Cells[4].Merge(_table.Rows[_table.Rows.Count].Cells[5]);
-
-                _table.Cell(_table.Rows.Count - 1, 4).Range.Text = "* Элементы SMD монтажа";
-                _table.Cell(_table.Rows.Count, 4).Range.Text = "** Заимствованные изделия";
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
             }
         }
-        private static void AddName(ProductRepository productRepository, Word.Table _table, ref int i, int k)
+        private void AddName(ProductRepository productRepository, Word.Table _table, ref int i, int k)
         {
-            _table.Rows.Add();
-            _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-            _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
-            _table.Cell(i, 5).VerticalAlignment = Word.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
-            _table.Cell(i++, 5).Range.Text = productRepository.Products[k].Name;
+            try
+            {
+                _table.Rows.Add();
+                _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                    Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineSingle;
+                _table.Cell(i, 5).VerticalAlignment = Word.WdCellVerticalAlignment.wdCellAlignVerticalCenter;
+                _table.Cell(i++, 5).Range.Text = productRepository.Products[k].Name;
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (StackOverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
         }
-        private static void AddManufacturers(ProductRepository productRepository, Word.Table _table, ref int i, int k)
+        private void AddManufacturers(ProductRepository productRepository, Word.Table _table, ref int i, int k)
         {
             int maxLengthOfManufacturersName = 25;
-            
-            _table.Rows.Add();
-            if (productRepository.Products[k].Manufacturers == null ||
-                productRepository.Products[k].Manufacturers.Count == 0)
-                return;
 
-            List<string> partsofname = new List<string>();
+            try
+            {
+                _table.Rows.Add();
+                if (productRepository.Products[k].Manufacturers == null ||
+                    productRepository.Products[k].Manufacturers.Count == 0)
+                    return;
 
-            for (int x = 0; x < productRepository.Products[k].Manufacturers.Count; ++x)
-            {
-                int begin = 0;
-                int end;
-                do
-                {
-                    end = productRepository.Products[k].Manufacturers[x].IndexOf(" ", begin, StringComparison.OrdinalIgnoreCase);
-                    partsofname.Add(
-                        productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
-                            .Replace("\r", "")
-                            .Replace("\n", ""));
-                    begin = end + 1;
-                } while (productRepository.Products[k].Manufacturers[x].IndexOf(" ", begin, StringComparison.OrdinalIgnoreCase) > end - begin);
-                end = productRepository.Products[k].Manufacturers[x].Length;
-                //string temp = productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
-                //    .Replace(" ", null);
-                //if (temp != "")
-                //    partsofname.Add(temp);
-                if (
-                    productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin).Replace(" ", null) != null
-                    &&
-                    productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin).Replace(" ", null).Length != 0)
-                    partsofname.Add(
-                        productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
-                            .Replace(" ", null));
-            }
-            string oldTemp = "";
-            string newTemp = "";
-            bool isAdded = false;
-
-            for (int m = 0; m < partsofname.Count; ++m)
-            {
-                if (partsofname[m] == "") continue;
-                newTemp += (partsofname[m] + " ");
-                if (newTemp.Length <= maxLengthOfManufacturersName)
-                {
-                    oldTemp = newTemp;
-                    isAdded = true;
-                    if (m + 1 != partsofname.Count)
-                        continue;
-                    else
-                    {
-                        _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                        _table.Cell(i++, 5).Range.Text = oldTemp;
-                        _table.Rows.Add();
-                        oldTemp = newTemp = "";
-                        isAdded = false;
-                    }
-                }
-                else if (newTemp.Length > maxLengthOfManufacturersName && !isAdded)
-                {
-                    _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                    _table.Cell(i++, 5).Range.Text = newTemp;
-                    _table.Rows.Add();
-                    oldTemp = newTemp = "";
-                }
-                else
-                {
-                    _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
-                    _table.Cell(i++, 5).Range.Text = oldTemp;
-                    _table.Rows.Add();
-                    oldTemp = newTemp = "";
-                    isAdded = false;
-                    --m;
-                }
-                _table.Cell(i, 5).Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
-            }
-        }
-        private static void AddElementsName(ProductRepository productRepository, Word.Table _table, int i, int k, int j, out int lastLine)
-        {
-            int maxLengthOfName = 25;
-            lastLine = i;
-            if (productRepository.Products[k].ElementsName[j].Name.Length <= maxLengthOfName)
-                _table.Cell(i, 5).Range.Text = productRepository.Products[k].ElementsName[j].Name.Replace("(F", "mF");
-            else
-            {
                 List<string> partsofname = new List<string>();
-                int begin = 0;
-                int end;
-                do
-                {
-                    end = productRepository.Products[k].ElementsName[j].Name.IndexOf(" ", begin, StringComparison.OrdinalIgnoreCase);
-                    partsofname.Add(
-                        productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
-                            .Replace("(F", "mF").Replace("\r", "").Replace("\n", ""));
-                    begin = end + 1;
-                } while (productRepository.Products[k].ElementsName[j].Name.IndexOf(" ", begin, StringComparison.OrdinalIgnoreCase) > end - begin);
-                end = productRepository.Products[k].ElementsName[j].Name.Length;
-                if (
-                    productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin).Replace(" ", null) != null
-                    &&
-                    productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin).Replace(" ", null).Length != 0)
-                    partsofname.Add(
-                        productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
-                            .Replace(" ", null));
 
+                for (int x = 0; x < productRepository.Products[k].Manufacturers.Count; ++x)
+                {
+                    int begin = 0;
+                    int end;
+                    do
+                    {
+                        end = productRepository.Products[k].Manufacturers[x].IndexOf(" ", begin,
+                            StringComparison.OrdinalIgnoreCase);
+                        partsofname.Add(
+                            productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
+                                .Replace("\r", "")
+                                .Replace("\n", ""));
+                        begin = end + 1;
+                    } while (
+                        productRepository.Products[k].Manufacturers[x].IndexOf(" ", begin,
+                            StringComparison.OrdinalIgnoreCase) > end - begin);
+                    end = productRepository.Products[k].Manufacturers[x].Length;
+
+                    if (
+                        productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin).Replace(" ", null) !=
+                        null
+                        &&
+                        productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
+                            .Replace(" ", null)
+                            .Length != 0)
+                        partsofname.Add(
+                            productRepository.Products[k].Manufacturers[x].Substring(begin, end - begin)
+                                .Replace(" ", null));
+                }
                 string oldTemp = "";
                 string newTemp = "";
                 bool isAdded = false;
@@ -956,7 +1214,7 @@ namespace Scple.Models
                 {
                     if (partsofname[m] == "") continue;
                     newTemp += (partsofname[m] + " ");
-                    if (newTemp.Length <= maxLengthOfName)
+                    if (newTemp.Length <= maxLengthOfManufacturersName)
                     {
                         oldTemp = newTemp;
                         isAdded = true;
@@ -964,29 +1222,203 @@ namespace Scple.Models
                             continue;
                         else
                         {
-                            _table.Cell(lastLine, 5).Range.Text = oldTemp;
-                            oldTemp = newTemp = " ";
+                            _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                                Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                            _table.Cell(i++, 5).Range.Text = oldTemp;
+                            _table.Rows.Add();
+                            oldTemp = newTemp = "";
                             isAdded = false;
                         }
                     }
-                    else if (newTemp.Length > maxLengthOfName && !isAdded)
+                    else if (newTemp.Length > maxLengthOfManufacturersName && !isAdded)
                     {
-                        _table.Cell(lastLine++, 5).Range.Text = newTemp;
+                        _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                            Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        _table.Cell(i++, 5).Range.Text = newTemp;
                         _table.Rows.Add();
                         oldTemp = newTemp = "";
                     }
                     else
                     {
-                        _table.Cell(lastLine++, 5).Range.Text = oldTemp;
+                        _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                            Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
+                        _table.Cell(i++, 5).Range.Text = oldTemp;
                         _table.Rows.Add();
                         oldTemp = newTemp = "";
                         isAdded = false;
                         --m;
                     }
+                    _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                        Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                Handling(ex);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (StackOverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
                 }
             }
         }
-        private static void AddDesignatorsCount(ProductRepository productRepository, Word.Table _table, int k, int j, int lastLine)
+        private void AddElementsName(ProductRepository productRepository, Word.Table _table, int i, int k, int j, out int lastLine)
+        {
+            int maxLengthOfName = 25;
+            lastLine = i;
+
+            try{
+                if (productRepository.Products[k].ElementsName[j].Name.Length <= maxLengthOfName)
+                    _table.Cell(i, 5).Range.Text = productRepository.Products[k].ElementsName[j].Name.Replace("(F", "mF");
+                else
+                {
+                    List<string> partsofname = new List<string>();
+                    int begin = 0;
+                    int end;
+                    do
+                    {
+                        end = productRepository.Products[k].ElementsName[j].Name.IndexOf(" ", begin,
+                            StringComparison.OrdinalIgnoreCase);
+                        partsofname.Add(
+                            productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
+                                .Replace("(F", "mF").Replace("\r", "").Replace("\n", ""));
+                        begin = end + 1;
+                    } while (
+                        productRepository.Products[k].ElementsName[j].Name.IndexOf(" ", begin,
+                            StringComparison.OrdinalIgnoreCase) > end - begin);
+                    end = productRepository.Products[k].ElementsName[j].Name.Length;
+                    if (
+                        productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
+                            .Replace(" ", null) != null
+                        &&
+                        productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
+                            .Replace(" ", null)
+                            .Length != 0)
+                        partsofname.Add(
+                            productRepository.Products[k].ElementsName[j].Name.Substring(begin, end - begin)
+                                .Replace(" ", null));
+
+                    string oldTemp = "";
+                    string newTemp = "";
+                    bool isAdded = false;
+
+                    for (int m = 0; m < partsofname.Count; ++m)
+                    {
+                        if (partsofname[m] == "") continue;
+                        newTemp += (partsofname[m] + " ");
+                        if (newTemp.Length <= maxLengthOfName)
+                        {
+                            oldTemp = newTemp;
+                            isAdded = true;
+                            if (m + 1 != partsofname.Count)
+                                continue;
+                            else
+                            {
+                                _table.Cell(lastLine, 5).Range.Text = oldTemp;
+                                oldTemp = newTemp = " ";
+                                isAdded = false;
+                            }
+                        }
+                        else if (newTemp.Length > maxLengthOfName && !isAdded)
+                        {
+                            _table.Cell(lastLine++, 5).Range.Text = newTemp;
+                            _table.Rows.Add();
+                            oldTemp = newTemp = "";
+                        }
+                        else
+                        {
+                            _table.Cell(lastLine++, 5).Range.Text = oldTemp;
+                            _table.Rows.Add();
+                            oldTemp = newTemp = "";
+                            isAdded = false;
+                            --m;
+                        }
+                    }
+                }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                Handling(ex);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+        }
+        private void AddDesignatorsCount(ProductRepository productRepository, Word.Table _table, int k, int j, int lastLine)
         {
             _table.Cell(lastLine, 6).Range.Text =
                         productRepository.Products[k].ElementsName[j].DesignatorsCount.ToString(CultureInfo.CurrentCulture);
@@ -997,51 +1429,99 @@ namespace Scple.Models
             string newTemp = "";
             bool isAdded = false;
 
-            // Добавление звёздочки если элемент - SMD
-            if (_parameters.ElementsOfSmdMounting)
-                for (int l = 0; l < _parameters.SmdIdentificators.Count; ++l)
-                    if (
-                        productRepository.Products[k].ElementsName[j].Name.Contains(
-                            _parameters.SmdIdentificators[l]))
-                    {
-                        newTemp += "*";
-                        break;
-                    }
-
-            for (int m = 0; m < productRepository.Products[k].ElementsName[j].ElementsDesignator.Count; ++m)
+            try
             {
-                newTemp += productRepository.Products[k].ElementsName[j].ElementsDesignator[m];
-                if (newTemp.Length <= 7)
+                // Добавление звёздочки если элемент - SMD
+                if (_parameters.ElementsOfSmdMounting)
+                    for (int l = 0; l < _parameters.SmdIdentificators.Count; ++l)
+                        if (
+                            productRepository.Products[k].ElementsName[j].Name.Contains(
+                                _parameters.SmdIdentificators[l]))
+                        {
+                            newTemp += "*";
+                            break;
+                        }
+
+                for (int m = 0; m < productRepository.Products[k].ElementsName[j].ElementsDesignator.Count; ++m)
                 {
-                    oldTemp = newTemp;
-                    isAdded = true;
-                    if (m + 1 != productRepository.Products[k].ElementsName[j].ElementsDesignator.Count)
-                        continue;
+                    newTemp += productRepository.Products[k].ElementsName[j].ElementsDesignator[m];
+                    if (newTemp.Length <= 7)
+                    {
+                        oldTemp = newTemp;
+                        isAdded = true;
+                        if (m + 1 != productRepository.Products[k].ElementsName[j].ElementsDesignator.Count)
+                            continue;
+                        else
+                        {
+                            _table.Cell(i++, 7).Range.Text = oldTemp;
+                            _table.Rows.Add();
+                            oldTemp = newTemp = " ";
+                            isAdded = false;
+                        }
+                    }
+                    else if (newTemp.Length > 7 && !isAdded)
+                    {
+                        _table.Cell(i++, 7).Range.Text = newTemp;
+                        _table.Rows.Add();
+                        oldTemp = newTemp = " ";
+                    }
                     else
                     {
                         _table.Cell(i++, 7).Range.Text = oldTemp;
                         _table.Rows.Add();
                         oldTemp = newTemp = " ";
                         isAdded = false;
+                        m--;
                     }
                 }
-                else if (newTemp.Length > 7 && !isAdded)
+                ++i;
+                ++i;
+            }
+            catch (OutOfMemoryException ex)
+            {
+                Handling(ex);
+                ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+            }
+            catch (NullReferenceException ex)
+            {
+                Handling(ex);
+            }
+            catch (OverflowException ex)
+            {
+                Handling(ex);
+            }
+            catch (ArgumentNullException ex)
+            {
+                Handling(ex);
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
                 {
-                    _table.Cell(i++, 7).Range.Text = newTemp;
-                    _table.Rows.Add();
-                    oldTemp = newTemp = " ";
-                }
-                else
-                {
-                    _table.Cell(i++, 7).Range.Text = oldTemp;
-                    _table.Rows.Add();
-                    oldTemp = newTemp = " ";
-                    isAdded = false;
-                    m--;
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
                 }
             }
-            ++i;
-            ++i;
+            catch (ArgumentOutOfRangeException ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
+            catch (UnhandledException)
+            {
+                throw new UnhandledException();
+            }
+            catch (Exception ex)
+            {
+                if (Warning(ex, i))
+                {
+                    ChangeCreateSpecStatusLabel("Ошибка!", EventArgs.Empty);
+                    throw new UnhandledException();
+                }
+            }
         }
 #endregion
 
