@@ -20,10 +20,19 @@ namespace Scple.Presenters
     public class Presenter : IPresenter
     {
 #region IPresenter
+        /// <summary>
+        /// Запуск главного Представления
+        /// </summary>
         public void Run()
         {
             _filePathView.Show();
         }
+        /// <summary>
+        /// Изменение параметров по умолчанию
+        /// </summary>
+        /// <param name="newData">Новая информация</param>
+        /// <param name="name1">Тэг внешний</param>
+        /// <param name="name2">Тэг внутренний</param>
         public void ChangeParameters(object newData, string name1, string name2)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -92,6 +101,10 @@ namespace Scple.Presenters
                 }
             }
         }
+        /// <summary>
+        /// Запись измененного списка SMD идентификаторов в файл
+        /// </summary>
+        /// <param name="SmdIdentificators">Список SMD идентификаторов</param>
         public void SaveSmdDesignatorsListToFile(Collection<string> SmdIdentificators)
         {
             File.Delete(_parameters.SmdIdentificatorsFilePath);
@@ -609,7 +622,7 @@ namespace Scple.Presenters
                 sr.Close();
                 parameters.SmdIdentificatorsFilePath = filePath;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 sr.Close();
                 parameters.SmdIdentificatorsFilePath = "";

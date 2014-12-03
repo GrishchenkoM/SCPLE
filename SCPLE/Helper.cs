@@ -4,8 +4,14 @@ using System.Windows.Forms;
 
 namespace Scple
 {
+    /// <summary>
+    /// Помощь
+    /// </summary>
     public class Helper
     {
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public Helper()
         {
             string executablePath = FindExePath.ExePath();

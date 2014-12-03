@@ -3,8 +3,14 @@ using System.Windows.Forms;
 
 namespace Scple
 {
+    /// <summary>
+    /// О программе
+    /// </summary>
     public partial class AboutForm : Form
     {
+        /// <summary>
+        /// Конструктор
+        /// </summary>
         public AboutForm()
         {
             InitializeComponent();

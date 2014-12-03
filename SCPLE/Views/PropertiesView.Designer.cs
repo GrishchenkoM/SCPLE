@@ -74,6 +74,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.Settings_txBx = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.RatingPlusName_chkBx = new System.Windows.Forms.CheckBox();
             this.FirstPage_chkBx = new System.Windows.Forms.CheckBox();
@@ -83,6 +84,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.Main_tabPage.SuspendLayout();
             this.gb_SourcePosition.SuspendLayout();
@@ -93,7 +95,9 @@
             this.Template_tabPage.SuspendLayout();
             this.Settings_tabPage.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -140,6 +144,7 @@
             resources.ApplyResources(this.SourcePosition_maskedTB, "SourcePosition_maskedTB");
             this.SourcePosition_maskedTB.Name = "SourcePosition_maskedTB";
             this.toolTip1.SetToolTip(this.SourcePosition_maskedTB, resources.GetString("SourcePosition_maskedTB.ToolTip"));
+            this.SourcePosition_maskedTB.Click += new System.EventHandler(this.SourcePosition_maskedTB_Click);
             this.SourcePosition_maskedTB.TextChanged += new System.EventHandler(this.SourcePosition_mskTxBx_TextChanged);
             // 
             // groupBox3
@@ -458,10 +463,18 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox5);
             this.tabPage2.Controls.Add(this.groupBox1);
             resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // groupBox1
             // 
@@ -519,6 +532,13 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.pictureBox1);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
             // PropertiesView
             // 
             resources.ApplyResources(this, "$this");
@@ -554,8 +574,10 @@
             this.Settings_tabPage.ResumeLayout(false);
             this.Settings_tabPage.PerformLayout();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,5 +638,7 @@
         private System.Windows.Forms.CheckBox Hat_chkBx;
         private System.Windows.Forms.Button DesignatorsFile_btn;
         public System.Windows.Forms.TextBox SmdDesignatorsFile_txBx;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.GroupBox groupBox5;
     }
 }

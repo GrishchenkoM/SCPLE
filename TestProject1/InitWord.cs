@@ -50,7 +50,7 @@ namespace SCPLETestProject
             {
                 _table = _documentWord.Tables[1];
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _table = null;
             }

@@ -2,16 +2,29 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
+using SCPLE;
 using Scple.Interfaces;
 using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Scple.Models
 {
+    /// <summary>
+    /// Преобразование файлов
+    /// </summary>
     public class ModelCreationSpecification : IModelCreationSpecification
     {
+        public ModelCreationSpecification()
+        {
+            _designatorNameRepository = new DesignatorNameRepository();
+            _singularProduct = new SingularProduct();
+        }
 #region IModelCreationSpecification
 #region Methods
+        /// <summary>
+        /// Работа с файлом
+        /// </summary>
+        /// <param name="path">Путь к файлу</param>
         public void FileService(string path)
         {
             try
@@ -72,7 +85,7 @@ namespace Scple.Models
                     (ref templatePathObj, ref _missingObj, ref _missingObj, ref _missingObj);
                 ListOrSpecDocument(_documentWord);
             }
-            catch (Exception error)
+            catch (Exception)
             {
                 ChangeReadFileStatus("Ошибка", EventArgs.Empty);
                 CloseDocument(ref _applicationWord, ref _documentWord);
@@ -98,8 +111,8 @@ namespace Scple.Models
                 else if (_isSpecification)
                 {
                     string fullFileName;
-                    string FileName = CreateFullFileName(path, out fullFileName);
-                    ChangeReadFileStatus("- Чтение файла спецификации: " + FileName, EventArgs.Empty);
+                    string fileName = CreateFullFileName(path, out fullFileName);
+                    ChangeReadFileStatus("- Чтение файла спецификации: " + fileName, EventArgs.Empty);
 
                     for (int i = 1; i <= _documentWord.Tables.Count; ++i)
                     {
@@ -112,7 +125,7 @@ namespace Scple.Models
                     throw new Exception("Unknown file!");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return;
             }
@@ -123,10 +136,11 @@ namespace Scple.Models
             string fullFileName;
 
             CreateFullFileName(path, out fullFileName);
-            DesignationsSorting(productRepository); // Сортировка Наименований
 
             if (_isList && _parameters.FileDoc)
             {
+                DesignationsSorting(productRepository);
+
                 #region Создание файла Doc
 
                 Word._Application applicationWord = null;
@@ -141,7 +155,7 @@ namespace Scple.Models
 
                     _documentWord.SaveAs(fullFileName + ".docx");
                 }
-                catch (Exception error)
+                catch (Exception)
                 {
                     CloseDocument(ref applicationWord, ref _documentWord);
                     throw;
@@ -162,7 +176,7 @@ namespace Scple.Models
                     }
                     _documentWord.Save();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     CloseDocument(ref applicationWord, ref _documentWord);
                     ChangeProgressBar(-1, EventArgs.Empty);
@@ -177,6 +191,9 @@ namespace Scple.Models
             }
             else
             {
+                if (_isList)
+                    DesignationsSorting(productRepository);
+
                 #region Создание файла Excel
 
                 _applicationExcel = new Excel.Application();
@@ -190,7 +207,7 @@ namespace Scple.Models
                     _excelAppWorkBook = _excelAppWorkBooks[1];
                     _excelAppWorkBook.SaveAs(fullFileName + ".xlsx");
                 }
-                catch (Exception error)
+                catch (Exception)
                 {
                     _applicationExcel.Workbooks.Close();
                     CloseAll();
@@ -322,7 +339,7 @@ namespace Scple.Models
             {
                 int length = path.Length - tempPath.Length;
                 string tempNameWithExt = path.Substring(path.LastIndexOf('\\') + 1, length);
-                tempName = tempNameWithExt.Substring(0, 15);
+                tempName = tempNameWithExt.Substring(0, tempNameWithExt.LastIndexOf("."));
             }
             else if (_parameters.DesignDocFirstString != "" ||
                 _parameters.DesignDocSecondString != "")
@@ -333,11 +350,18 @@ namespace Scple.Models
             fullFileName = tempPath + tempName;
             return tempName;
         }
+        /// <summary>
+        /// Обновление параметров
+        /// </summary>
+        /// <param name="parameters">Параметры</param>
         public void SetParameters(Parameters parameters)
         {
             _parameters = new Parameters();
             _parameters = parameters;
         }
+        /// <summary>
+        /// Закрыть все документы
+        /// </summary>
         public void CloseAll()
         {
             CloseDocument(ref _applicationWord, ref _documentWord);
@@ -346,11 +370,29 @@ namespace Scple.Models
 #endregion
 
 #region Events
+        /// <summary>
+        /// Изменение величины заполнения ProgressBar
+        /// </summary>
         public event EventHandler<EventArgs> ChangeProgressBar;
+        /// <summary>
+        /// Изменение статуса ReadListStatusLabel
+        /// </summary>
         public event EventHandler<EventArgs> ChangeReadListStatusLabel;
+        /// <summary>
+        /// Изменение статуса CreateSpecStatusLabel
+        /// </summary>
         public event EventHandler<EventArgs> ChangeCreateSpecStatusLabel;
+        /// <summary>
+        /// Изменение общего статуса StatusLabel
+        /// </summary>
         public event EventHandler<EventArgs> ChangeStatusLabel;
+        /// <summary>
+        /// Изменение статуса кнопки "Отмена"
+        /// </summary>
         public event EventHandler<EventArgs> ChangeStatusButton;
+        /// <summary>
+        /// Изменение статуса файла
+        /// </summary>
         public event EventHandler<EventArgs> ChangeReadFileStatus;
 #endregion
 #endregion
@@ -592,7 +634,8 @@ namespace Scple.Models
                                     AddToSameDesignation(productRepository, _table, i + k, j + 5);
                         }
                         else
-                            CreateProduct(productRepository, _table, ref i, j + 3);
+                            if (i < _table.Rows.Count)
+                                CreateProduct(productRepository, _table, ref i, j + 3);
 
                     ChangeProgressBar(i, EventArgs.Empty);
 
@@ -761,7 +804,7 @@ namespace Scple.Models
                 _sameNamePosition =
                     productRepository.Products[productRepository.Products.Count - 1].ElementsName.Count - 1;
             }
-            catch (UnhandledException ex){}
+            catch (UnhandledException){}
             catch (Exception ex)
             {
                 DoWarning(ex, i, ChangeReadListStatusLabel);
@@ -864,7 +907,7 @@ namespace Scple.Models
             ChangeCreateSpecStatusLabel("В процессе...", EventArgs.Empty);
             ChangeStatusLabel("Создание файла 'docx'. Пожалуйста, подождите", EventArgs.Empty);
 
-            int lastLine, i = 4;
+            int lastLine, i = 4, m = 0;
             try
             {
                 if (tabNumber == 1)
@@ -876,18 +919,31 @@ namespace Scple.Models
                     _table.Rows.Add();
                     for (int k = 0; k < productRepository.Products.Count; ++k)
                     {
-                        AddName(productRepository, _table, ref i, k);
-                        _table.Cell(i, 5).Range.Underline = Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineNone;
-                        AddManufacturers(productRepository, _table, ref i, k);
-                        _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
-                            Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
-                        _table.Rows.Add();
-                        _table.Rows.Add();
-                        i += 2;
+                        if (!_parameters.RatingPlusName)
+                        {
+                            AddName(productRepository, _table, ref i, k);
+                            _table.Cell(i, 5).Range.Underline =
+                                Microsoft.Office.Interop.Word.WdUnderline.wdUnderlineNone;
+                            AddManufacturers(productRepository, _table, ref i, k);
+                            _table.Cell(i, 5).Range.ParagraphFormat.Alignment =
+                                Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphLeft;
+                            _table.Rows.Add();
+                            _table.Rows.Add();
+                            i += 2;
+                        }
 
                         for (int j = 0; j < productRepository.Products[k].ElementsName.Count; ++j)
                         {
                             _table.Cell(i, 3).Range.Text = positionNumber.ToString(CultureInfo.CurrentCulture);
+
+                            if (_parameters.RatingPlusName)
+                            {
+                                if (AddProductToElementsNameDoc(productRepository, _table, i, k, j))
+                                {
+                                    _table.Rows.Add();
+                                    ++i;
+                                }
+                            }
                             AddElementsName(productRepository, _table, i, k, j, out lastLine);
                             AddDesignatorsCount(productRepository, _table, k, j, lastLine);
                             AddDesignators(productRepository, _table, ref i, k, j);
@@ -895,7 +951,7 @@ namespace Scple.Models
                             positionNumber += 2;
                             _table.Rows.Add();
                             _table.Rows.Add();
-                            ChangeProgressBar(j, EventArgs.Empty);
+                            ChangeProgressBar(++m, EventArgs.Empty);
                         }
                         ++i;
                     }
@@ -1298,6 +1354,44 @@ namespace Scple.Models
                 }
             }
         }
+
+        private bool AddProductToElementsNameDoc(ProductRepository productRepository, Word.Table _table, int i, int k,
+            int j)
+        {
+            string singularProductName = _singularProduct.ReturnSingularProductName(productRepository.Products[k].Name);// Product
+            List<string> currentDesignatorsNames =
+                _designatorNameRepository.ReturnDesignatorsName(
+                    productRepository.Products[k].ElementsName[j].ElementsDesignator[0]); // C1 -> C -> "конденсатор, ионистор"
+            if (currentDesignatorsNames == null) return true;
+
+            foreach (string name in currentDesignatorsNames)
+            {
+                if (singularProductName == name)
+                {
+                    if (!IsContainsInElemName(productRepository.Products[k].ElementsName[j].Name.ToLower(),
+                        singularProductName))
+                    {
+                        _table.Cell(i, 5).Range.Text = singularProductName;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            foreach (string name in currentDesignatorsNames)
+                if (IsContainsInElemName(productRepository.Products[k].ElementsName[j].Name.ToLower(), name))
+                    return false;
+            
+            _table.Cell(i, 5).Range.Text = currentDesignatorsNames[0];
+            return true;
+        }
+
+        private bool IsContainsInElemName(string elementsName, string designatorsName)
+        {
+            if (elementsName.Contains(designatorsName)) 
+                return true;
+            return false;
+        }
         private void AddElementsName(ProductRepository productRepository, Word.Table _table, int i, int k, int j, out int lastLine)
         {
             int maxLengthOfName = 25;
@@ -1555,6 +1649,7 @@ namespace Scple.Models
                 ((Excel.Range)_excelWorkSheet.Cells[i, 6]).Value2 = "Примечание";
                 ++i;
             }
+            ChangeProgressBar(i, EventArgs.Empty);
             
             if (_isList)
             {
@@ -1562,6 +1657,7 @@ namespace Scple.Models
                 ++i;
                 positionNumber = Convert.ToInt32(_parameters.SourcePosition, CultureInfo.CurrentCulture);
             }
+            ChangeProgressBar(i, EventArgs.Empty);
 
             if (!_parameters.FirstPage)
             {
@@ -1572,7 +1668,7 @@ namespace Scple.Models
                     ++x;
                 k = x;
             }
-
+            
             for ( ; k < productRepository.Products.Count; ++k)
             {
                 if (!_parameters.RatingPlusName)
@@ -1581,6 +1677,7 @@ namespace Scple.Models
                     AddManufacturersToXls(productRepository, ref i, k);
                     ++i;
                 }
+                ChangeProgressBar(i, EventArgs.Empty);
                 Dictionary<int, bool> duplication = new Dictionary<int, bool>(productRepository.Products[k].ElementsName.Count);
                 DeterminationOfDuplication(productRepository, duplication, k);
                 for (int j = 0; j < productRepository.Products[k].ElementsName.Count; ++j)
@@ -1592,15 +1689,17 @@ namespace Scple.Models
                         AddPositionToXls(productRepository, i, k, j);
                     AddDesignation(productRepository, i, k, j);
                     if (_parameters.RatingPlusName)
-                        AddProductToElementsName(productRepository, i, k);
+                        if (AddProductToElementsNameXls(productRepository, i, k, j))
+                            ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 += " ";
                     AddElementsNameToXls(productRepository, i, k, j, duplication);
                     AddDesignatorsCountToXls(productRepository, i, k, j);
                     AddDesignatorsToXls(productRepository, ref i, k, j);
                     ++i;
                     if (positionNumber != -1) positionNumber += 2;
-                    ChangeProgressBar(j, EventArgs.Empty);
+                    ChangeProgressBar(i, EventArgs.Empty);
                  }
                 ++i;
+                ChangeProgressBar(i, EventArgs.Empty);
                 duplication.Clear();
             }
             ChangeCreateSpecStatusLabel("Готово!", EventArgs.Empty);
@@ -1708,9 +1807,34 @@ namespace Scple.Models
                 ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 += (productRepository.Products[k].Manufacturers[x] + " ");
             }
         }
-        private void AddProductToElementsName(ProductRepository productRepository, int i, int k)
+        private bool AddProductToElementsNameXls(ProductRepository productRepository, int i, int k, int j)
         {
-            ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 = (productRepository.Products[k].SingularName + " ");
+            string singularProductName = _singularProduct.ReturnSingularProductName(productRepository.Products[k].Name);// Product
+            List<string> currentDesignatorsNames =
+                _designatorNameRepository.ReturnDesignatorsName(
+                    productRepository.Products[k].ElementsName[j].ElementsDesignator[0]); // C1 -> C -> "конденсатор, ионистор"
+            if (currentDesignatorsNames == null) return true;
+
+            foreach (string name in currentDesignatorsNames)
+            {
+                if (singularProductName == name)
+                {
+                    if (!IsContainsInElemName(productRepository.Products[k].ElementsName[j].Name.ToLower(),
+                        singularProductName))
+                    {
+                        ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 = singularProductName;
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            foreach (string name in currentDesignatorsNames)
+                if (IsContainsInElemName(productRepository.Products[k].ElementsName[j].Name.ToLower(), name))
+                    return false;
+
+            ((Excel.Range)_excelWorkSheet.Cells[i, 4]).Value2 = currentDesignatorsNames[0];
+            return true;
         }
         private void AddElementsNameToXls(ProductRepository productRepository, int i, int k, int j, Dictionary<int, bool> duplication)
         {
@@ -1805,6 +1929,8 @@ namespace Scple.Models
         private int _totalAmountElementsNames;
         private bool _isList;
         private bool _isSpecification;
-#endregion
+        private DesignatorNameRepository _designatorNameRepository;
+        private SingularProduct _singularProduct;
+        #endregion
     }
 }

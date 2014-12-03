@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Scple.Interface;
 using Scple.Presenters;
+using SCPLE.Properties;
 
 namespace Scple.View
 {
@@ -21,21 +23,33 @@ namespace Scple.View
     {
         #region IViewProperties
         #region Methods
+        /// <summary>
+        /// Инкапсуляция TextBox шаблона спецификации
+        /// </summary>
         public string SpecificationFileTemplateTxBx
         {
             get { return SpecificationTemplate_txBx.Text; }
             set { SpecificationTemplate_txBx.Text = value; }
         }
+        /// <summary>
+        /// Инкапсуляция TextBox файла настроек программы
+        /// </summary>
         public string SettingsFileTxBx
         {
             get { return Settings_txBx.Text; }
             set { Settings_txBx.Text = value; }
         }
+        /// <summary>
+        /// Отображает форму
+        /// </summary>
         public void ShowForm()
         {
             this.Show();
             IsVisible(true);
         }
+        /// <summary>
+        /// Разрешение видимости формы
+        /// </summary>
         public void IsVisible(bool isVisible)
         {
             this.Visible = isVisible;
@@ -408,6 +422,25 @@ namespace Scple.View
             IdentificatorTxBx.Text = "";
             AddBtn.Enabled = false;
         }
+        private void PictureChange()
+        {
+            if (!Hat_chkBx.Checked && !FirstPage_chkBx.Checked && !RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._000;
+            else if (!Hat_chkBx.Checked && !FirstPage_chkBx.Checked && RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._001;
+            else if (!Hat_chkBx.Checked && FirstPage_chkBx.Checked && !RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._010;
+            else if (!Hat_chkBx.Checked && FirstPage_chkBx.Checked && RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._011;
+            else if (Hat_chkBx.Checked && !FirstPage_chkBx.Checked && !RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._100;
+            else if (Hat_chkBx.Checked && !FirstPage_chkBx.Checked && RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._101;
+            else if (Hat_chkBx.Checked && FirstPage_chkBx.Checked && !RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._110;
+            else if (Hat_chkBx.Checked && FirstPage_chkBx.Checked && RatingPlusName_chkBx.Checked)
+                pictureBox1.Image = Resources._111;
+        }
         #endregion
         
         #region Click Events
@@ -507,19 +540,26 @@ namespace Scple.View
         {
             _changeHat = true;
             Save_btn.Enabled = true;
+            PictureChange();
         }
         private void FirstPage_chkBx_CheckedChanged(object sender, EventArgs e)
         {
             _changeFirstPage = true;
             Save_btn.Enabled = true;
+            PictureChange();
         }
         private void RatingPlusName_chkBx_CheckedChanged(object sender, EventArgs e)
         {
             _changeRatingPlusName = true;
             Save_btn.Enabled = true;
+            PictureChange();
+        }
+        private void SourcePosition_maskedTB_Click(object sender, EventArgs e)
+        {
+            SourcePosition_maskedTB.SelectionStart = 0;
         }
         #endregion
-        
+
         #region Variables
 
         #region Changeble Variables
@@ -555,10 +595,5 @@ namespace Scple.View
         private SaveSmdDesignatorsListToFile _saveSmdDesignatorsListToFile;
         private string _tempIdentificatorForRemove;
         #endregion
-
-        
-
-        
-        
     }
 }

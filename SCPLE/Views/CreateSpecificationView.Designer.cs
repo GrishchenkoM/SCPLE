@@ -63,6 +63,7 @@
             this.RatingPlusName_chkBx = new System.Windows.Forms.CheckBox();
             this.FirstPage_chkBx = new System.Windows.Forms.CheckBox();
             this.Hat_chkBx = new System.Windows.Forms.CheckBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.SpecDesignation_gbx.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.DesignationPcb_gBx.SuspendLayout();
@@ -71,6 +72,7 @@
             this.statusStrip1.SuspendLayout();
             this.gb_SourcePosition.SuspendLayout();
             this.XlsSettings_gBx.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // SpecDesignation_gbx
@@ -308,10 +310,10 @@
             this.FileXls_rb.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.FileXls_rb.Location = new System.Drawing.Point(14, 60);
             this.FileXls_rb.Name = "FileXls_rb";
-            this.FileXls_rb.Size = new System.Drawing.Size(57, 25);
+            this.FileXls_rb.Size = new System.Drawing.Size(64, 25);
             this.FileXls_rb.TabIndex = 8;
             this.FileXls_rb.TabStop = true;
-            this.FileXls_rb.Text = ".XLS";
+            this.FileXls_rb.Text = ".XLSx";
             this.FileXls_rb.UseVisualStyleBackColor = true;
             this.FileXls_rb.CheckedChanged += new System.EventHandler(this.FileXls_rb_CheckedChanged);
             // 
@@ -322,10 +324,10 @@
             this.FileDoc_rb.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.FileDoc_rb.Location = new System.Drawing.Point(14, 35);
             this.FileDoc_rb.Name = "FileDoc_rb";
-            this.FileDoc_rb.Size = new System.Drawing.Size(64, 25);
+            this.FileDoc_rb.Size = new System.Drawing.Size(71, 25);
             this.FileDoc_rb.TabIndex = 8;
             this.FileDoc_rb.TabStop = true;
-            this.FileDoc_rb.Text = ".DOC";
+            this.FileDoc_rb.Text = ".DOCx";
             this.FileDoc_rb.UseVisualStyleBackColor = true;
             this.FileDoc_rb.CheckedChanged += new System.EventHandler(this.FileDoc_rb_CheckedChanged);
             // 
@@ -395,22 +397,22 @@
             this.SourcePosition_maskedTB.TabIndex = 1;
             this.SourcePosition_maskedTB.Text = "20";
             this.toolTip1.SetToolTip(this.SourcePosition_maskedTB, "Начальная позиция прочих изделий");
+            this.SourcePosition_maskedTB.Click += new System.EventHandler(this.SourcePosition_maskedTB_Click);
             // 
             // XlsSettings_gBx
             // 
-            this.XlsSettings_gBx.Controls.Add(this.RatingPlusName_chkBx);
             this.XlsSettings_gBx.Controls.Add(this.FirstPage_chkBx);
             this.XlsSettings_gBx.Controls.Add(this.Hat_chkBx);
             this.XlsSettings_gBx.Location = new System.Drawing.Point(13, 207);
             this.XlsSettings_gBx.Name = "XlsSettings_gBx";
-            this.XlsSettings_gBx.Size = new System.Drawing.Size(426, 35);
+            this.XlsSettings_gBx.Size = new System.Drawing.Size(213, 35);
             this.XlsSettings_gBx.TabIndex = 9;
             this.XlsSettings_gBx.TabStop = false;
             // 
             // RatingPlusName_chkBx
             // 
             this.RatingPlusName_chkBx.AutoSize = true;
-            this.RatingPlusName_chkBx.Location = new System.Drawing.Point(229, 12);
+            this.RatingPlusName_chkBx.Location = new System.Drawing.Point(7, 12);
             this.RatingPlusName_chkBx.Name = "RatingPlusName_chkBx";
             this.RatingPlusName_chkBx.Size = new System.Drawing.Size(191, 17);
             this.RatingPlusName_chkBx.TabIndex = 2;
@@ -420,7 +422,7 @@
             // FirstPage_chkBx
             // 
             this.FirstPage_chkBx.AutoSize = true;
-            this.FirstPage_chkBx.Location = new System.Drawing.Point(124, 12);
+            this.FirstPage_chkBx.Location = new System.Drawing.Point(116, 12);
             this.FirstPage_chkBx.Name = "FirstPage_chkBx";
             this.FirstPage_chkBx.Size = new System.Drawing.Size(65, 17);
             this.FirstPage_chkBx.TabIndex = 1;
@@ -430,12 +432,21 @@
             // Hat_chkBx
             // 
             this.Hat_chkBx.AutoSize = true;
-            this.Hat_chkBx.Location = new System.Drawing.Point(10, 12);
+            this.Hat_chkBx.Location = new System.Drawing.Point(18, 12);
             this.Hat_chkBx.Name = "Hat_chkBx";
             this.Hat_chkBx.Size = new System.Drawing.Size(62, 17);
             this.Hat_chkBx.TabIndex = 0;
             this.Hat_chkBx.Text = "Шапка";
             this.Hat_chkBx.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.RatingPlusName_chkBx);
+            this.groupBox2.Location = new System.Drawing.Point(232, 207);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(207, 35);
+            this.groupBox2.TabIndex = 9;
+            this.groupBox2.TabStop = false;
             // 
             // CreateSpecificationView
             // 
@@ -443,6 +454,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
             this.ClientSize = new System.Drawing.Size(451, 312);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.XlsSettings_gBx);
             this.Controls.Add(this.gb_SourcePosition);
             this.Controls.Add(this.statusStrip1);
@@ -479,6 +491,8 @@
             this.gb_SourcePosition.PerformLayout();
             this.XlsSettings_gBx.ResumeLayout(false);
             this.XlsSettings_gBx.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -519,6 +533,7 @@
         private System.Windows.Forms.CheckBox RatingPlusName_chkBx;
         private System.Windows.Forms.CheckBox FirstPage_chkBx;
         private System.Windows.Forms.CheckBox Hat_chkBx;
+        private System.Windows.Forms.GroupBox groupBox2;
 
     }
 }

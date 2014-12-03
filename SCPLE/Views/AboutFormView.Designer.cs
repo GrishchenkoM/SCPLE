@@ -56,19 +56,19 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(132, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(148, 119);
+            this.panel1.Size = new System.Drawing.Size(148, 140);
             this.panel1.TabIndex = 1;
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel1.Location = new System.Drawing.Point(6, 99);
+            this.linkLabel1.Location = new System.Drawing.Point(7, 103);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(139, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(119, 26);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "MishkaG2012@gmail.com";
+            this.linkLabel1.Text = "grishchenko.misha2012\r\n@yandex.ru";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label2
@@ -76,7 +76,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(7, 29);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(132, 65);
+            this.label2.Size = new System.Drawing.Size(125, 65);
             this.label2.TabIndex = 1;
             this.label2.Text = "Version 1.0\r\n(c) Michael Grishchenko \r\nKhNURE\r\nHartron-Express LTD\r\n2014";
             // 

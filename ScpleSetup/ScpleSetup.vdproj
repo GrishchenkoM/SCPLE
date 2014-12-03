@@ -153,7 +153,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.0"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -340,7 +340,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Spec-Creator"
         "ProductCode" = "8:{11E3D546-6419-4069-A2A7-DAE6CCA5288E}"
-        "PackageCode" = "8:{98E098EE-03EC-4F8D-80A1-A977D54CC09C}"
+        "PackageCode" = "8:{CDB777CE-99CF-473E-B897-AB7013F38B9E}"
         "UpgradeCode" = "8:{37851D98-DF64-4B30-A0C5-E31F6C478CF1}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -348,7 +348,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Hartron-Express Soft"
+        "Manufacturer" = "8:GrishchenkoM Soft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Spec-Creator Setup"

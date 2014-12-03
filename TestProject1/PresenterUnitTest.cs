@@ -11,8 +11,7 @@ namespace SCPLETestProject
     {
         private IViewFilePathMainForm _filePathView;
         private Presenter _presenter;
-        private IModelCreationSpecification modelCreationSpecification;
-
+        
         [SetUp]
         public void Presenter()
         {

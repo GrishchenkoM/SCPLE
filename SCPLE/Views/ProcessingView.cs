@@ -23,14 +23,23 @@ namespace Scple.View
     public partial class ProcessingView : Form, IViewProcessing
     {
         #region IViewProcessing
+        /// <summary>
+        /// Getter параметров
+        /// </summary>
         public Parameters Parameters
         {
             get { return _parameters; }
         }
+        /// <summary>
+        /// Закрытие формы
+        /// </summary>
         public void CloseForm()
         {
             ClosedForm();
         }
+        /// <summary>
+        /// Старт преобразования
+        /// </summary>
         public void StartCreating()
         {
             if (OpenFile != null)
@@ -142,22 +151,25 @@ namespace Scple.View
         #region Controlls
         private void SetProgressBarValue(int i)
         {
-            if (progressBar1.Step == -1)
+            try
             {
-                progressBar1.Step = 1;
-                progressBar1.Value = 0;
+                if (progressBar1.Step == -1)
+                {
+                    progressBar1.Step = 1;
+                    progressBar1.Value = 0;
 
-                _progressBarChangingValue = ((double)100) / i;
+                    _progressBarChangingValue = ((double)100) / i;
+                }
+                else if (i == -1)
+                {
+                    progressBar1.Value = 0;
+                    _progressBarChangingValue = 0;
+                    progressBar1.Step = -1;
+                }
+                else
+                    progressBar1.Value = (int)(_progressBarChangingValue * i);
             }
-            else if (i == -1)
-            {
-                progressBar1.Value = 0;
-                _progressBarChangingValue = 0;
-                progressBar1.Step = -1;
-            }
-            else
-                progressBar1.Value = (int)(_progressBarChangingValue * i);
-            
+            catch (Exception){}
         }
         private void SetReadListStatusLabel(string status, Color color)
         {
@@ -198,7 +210,6 @@ namespace Scple.View
         private readonly Parameters _parameters;
         private readonly string _listFilePath;
         private double _progressBarChangingValue;
-        private bool _isMoreThan100;
         private bool _isClosed;
         #endregion
     }

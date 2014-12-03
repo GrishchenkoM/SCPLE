@@ -12,8 +12,17 @@ namespace Scple
     /// </summary>
     public enum DocumentList
     {
+        /// <summary>
+        /// Перечень элементов
+        /// </summary>
         List,
+        /// <summary>
+        /// Шаблон спецификации
+        /// </summary>
         Template,
+        /// <summary>
+        /// Файл настроек
+        /// </summary>
         Settings
     };
     

@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Scple
 {
+    /// <summary>
+    /// Контейнер наименований типов элементов
+    /// </summary>
     public class ProductRepository
     {
         #region Constructor
@@ -15,6 +18,9 @@ namespace Scple
         {
             get { return _instance; }
         }
+        /// <summary>
+        /// Конструткор
+        /// </summary>
         public ProductRepository()
         {
             Products = new List<Product>();
@@ -28,6 +34,9 @@ namespace Scple
         public List<Product> Products;
         #endregion
 
+        /// <summary>
+        /// Сортировка элементов пр их наименованию
+        /// </summary>
         public void SortByDesignationName()
         {
             for (int i = 0; i < Products.Count; ++i)

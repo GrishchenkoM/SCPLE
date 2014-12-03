@@ -27,7 +27,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Spec-Creator</ProductName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -107,10 +107,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignatorName.cs" />
+    <Compile Include="DesignatorNameRepository.cs" />
     <Compile Include="ElementNameObject.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Interfaces\IHandling.cs" />
-    <Compile Include="Interfaces\IReadFile.cs" />
     <Compile Include="Interfaces\IViewFileCreation.cs" />
     <Compile Include="Interfaces\IModelFilePath.cs" />
     <Compile Include="Interfaces\IViewFilePathMainForm.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Product.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="FindExePath.cs" />
+    <Compile Include="SingularProduct.cs" />
     <Compile Include="UnhandledException.cs" />
     <Compile Include="Views\AboutFormView.cs">
       <SubType>Form</SubType>
@@ -237,6 +239,14 @@
     <None Include="bin\Settings.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\000.jpg" />
+    <Content Include="Resources\001.png" />
+    <Content Include="Resources\010.png" />
+    <Content Include="Resources\011.png" />
+    <Content Include="Resources\100.png" />
+    <Content Include="Resources\101.png" />
+    <Content Include="Resources\110.png" />
+    <Content Include="Resources\111.png" />
     <Content Include="Scripts\jquery-2.1.1-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

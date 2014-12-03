@@ -16,7 +16,7 @@ namespace Scple.Interfaces
         /// </summary>
         void CloseAll();
         /// <summary>
-        /// Работа с файлом перечня элементов
+        /// Работа с файлом
         /// </summary>
         /// <param name="path">Путь к файлу</param>
         void FileService(string path);

@@ -4,8 +4,18 @@ using Word = Microsoft.Office.Interop.Word;
 
 namespace Scple.Models
 {
+    /// <summary>
+    /// Определение документа по шапке в таблице
+    /// </summary>
     public class ModelPatternDetermination : IPatternDetermination
     {
+        // <summary>
+        /// Проверка документа на соответствие
+        /// документу "Перечень элементов"
+        /// </summary>
+        /// <param name="_table">Таблица</param>
+        /// <param name="row">Номер строки</param>
+        /// <returns>Документ является "Перечнем элементов"</returns>
         public bool IsList(Word.Table _table, int row)
         {
             if (_table == null)
@@ -15,7 +25,13 @@ namespace Scple.Models
                 return true;
             return false;
         }
-
+        /// <summary>
+        /// Проверка документа на соответствие
+        /// документу "Спецификация"
+        /// </summary>
+        /// <param name="_table">Таблица</param>
+        /// <param name="row">Номер строки</param>
+        /// <returns>Документ является "Спецификацией"</returns>
         public bool IsSpecification(Word.Table _table, int row)
         {
             if (_table == null)

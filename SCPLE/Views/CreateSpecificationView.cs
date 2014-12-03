@@ -18,11 +18,18 @@ namespace Scple.View
 
         #region IViewFileCreation Methods
         #region Methods
+        /// <summary>
+        /// Инициализация параметров
+        /// </summary>
+        /// <param name="parameters">Параметры</param>
         public void Initialization(Parameters parameters)
         {
             _parameters = parameters;
             Init();
         }
+        /// <summary>
+        /// Определение активности
+        /// </summary>
         public void IsEnabled()
         {
             Invoke(new IsEnableDelegate(IsEnable));
@@ -230,6 +237,10 @@ namespace Scple.View
         {
             DesignPcb_maskedTB.SelectionStart = 0;
         }
+        private void SourcePosition_maskedTB_Click(object sender, EventArgs e)
+        {
+            SourcePosition_maskedTB.SelectionStart = 0;
+        }
         #endregion
 
         #region Auxiliary
@@ -289,6 +300,5 @@ namespace Scple.View
             }
 
         }
-        
     }
 }
